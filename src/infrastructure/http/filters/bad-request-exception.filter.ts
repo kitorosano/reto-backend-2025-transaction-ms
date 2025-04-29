@@ -5,8 +5,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { BadRequestCustomException } from '../../../domain/exceptions/bad-request.exception';
 import { Log } from '../../../shared/log';
+import { BadRequestCustomException } from '../../../domain/exceptions/bad-request.exception';
 
 @Catch(BadRequestCustomException)
 export class BadRequestCustomExceptionFilter implements ExceptionFilter {
@@ -22,7 +22,6 @@ export class BadRequestCustomExceptionFilter implements ExceptionFilter {
     );
 
     response.status(HttpStatus.BAD_REQUEST).json({
-      status: HttpStatus.BAD_REQUEST,
       message: exception.message,
       errors: exception.errors,
     });

@@ -7,8 +7,9 @@ import {
 import { Request, Response } from 'express';
 import { NotFoundCustomException } from '../../../domain/exceptions/not-found.exception';
 import { Log } from '../../../shared/log';
+import { InvalidIdCustomException } from '../../mongodb/exceptions/invalid-id.exception';
 
-@Catch(NotFoundCustomException)
+@Catch(NotFoundCustomException, InvalidIdCustomException)
 export class NotFoundCustomExceptionFilter implements ExceptionFilter {
   catch(exception: NotFoundCustomException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -22,7 +23,6 @@ export class NotFoundCustomExceptionFilter implements ExceptionFilter {
     );
 
     response.status(HttpStatus.NOT_FOUND).json({
-      status: HttpStatus.NOT_FOUND,
       message: exception.message,
       resource: exception.resource,
     });
