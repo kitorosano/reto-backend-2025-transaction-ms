@@ -9,25 +9,25 @@ import {
 } from '@nestjs/common';
 import { CreateTransactionUseCase } from '../../../application/usecases/create-transaction.usecase';
 import { GetTransactionByIdUseCase } from '../../../application/usecases/get-transaction-by-id.usecase';
-import { GetTransactionsByUserUseCase } from '../../../application/usecases/get-transactions-by-user.usecase';
+import { GetTransactionHistoryUseCase } from '../../../application/usecases/get-transaction-history.usecase';
 import { Log } from '../../../shared/log';
-import { BadRequestCustomExceptionFilter } from '../exceptions/bad-request-exception.filter';
-import { NotFoundCustomExceptionFilter } from '../exceptions/not-found-exception.filter';
+import { BadRequestCustomExceptionFilter } from '../filters/bad-request-exception.filter';
+import { NotFoundCustomExceptionFilter } from '../filters/not-found-exception.filter';
 import { TransactionHTTPMapper } from '../mappers/transaction.http.mapper';
 import { RegisterTransactionHTTPRequest } from '../models/register-transaction.http.request';
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 @Controller('transactions')
+@UseFilters(BadRequestCustomExceptionFilter, NotFoundCustomExceptionFilter)
 export class TransactionHTTPAdapter {
   constructor(
     private createTransactionUseCase: CreateTransactionUseCase,
-    private getTransactionsByUserUseCase: GetTransactionsByUserUseCase,
+    private getTransactionsByUserUseCase: GetTransactionHistoryUseCase,
     private getTransactionByIdUseCase: GetTransactionByIdUseCase,
   ) {}
 
   @Post()
   @HttpCode(201)
-  @UseFilters(BadRequestCustomExceptionFilter)
   async registerTransaction(
     @Body() request: RegisterTransactionHTTPRequest,
   ): Promise<TransactionHTTPResponse> {

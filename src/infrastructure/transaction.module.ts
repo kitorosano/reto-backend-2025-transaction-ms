@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CreateTransactionUseCase } from '../application/usecases/create-transaction.usecase';
 import { GetTransactionByIdUseCase } from '../application/usecases/get-transaction-by-id.usecase';
-import { GetTransactionsByUserUseCase } from '../application/usecases/get-transactions-by-user.usecase';
+import { GetTransactionHistoryUseCase } from '../application/usecases/get-transaction-history.usecase';
 import { TransactionService } from '../domain/transaction.service';
 import { TransactionHTTPAdapter } from './http/controllers/transaction.http.adapter';
 import { MongoDBModule } from './mongodb/mongodb.module';
@@ -12,7 +12,7 @@ import { MongoDBModule } from './mongodb/mongodb.module';
   providers: [
     CreateTransactionUseCase,
     GetTransactionByIdUseCase,
-    GetTransactionsByUserUseCase,
+    GetTransactionHistoryUseCase,
     TransactionService,
   ],
 })

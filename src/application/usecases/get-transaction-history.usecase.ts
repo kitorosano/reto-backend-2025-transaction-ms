@@ -4,15 +4,20 @@ import { TransactionService } from '../../domain/transaction.service';
 import { TransactionDTO } from '../../shared/dto/transaction.dto';
 
 @Injectable()
-export class GetTransactionsByUserUseCase {
+export class GetTransactionHistoryUseCase {
   constructor(private transactionService: TransactionService) {}
 
-  execute(userId: string): Promise<TransactionDTO[]> {
+  async execute(userId: string): Promise<TransactionDTO[]> {
     Log.info(
       'GetTransactionsByUserUseCase',
-      `Getting transactions for userId ${userId}`,
+      `Getting transaction history for userId ${userId}`,
     );
 
-    return this.transactionService.getTransactionsByUser(userId);
+    const transactionHistory =
+      await this.transactionService.getTransactionsByUser(userId);
+
+    return transactionHistory;
   }
 }
+
+// TODO: Rename this to GetUserTransactionHistoryUseCase

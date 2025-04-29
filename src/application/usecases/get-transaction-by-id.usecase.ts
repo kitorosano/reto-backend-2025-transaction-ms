@@ -7,8 +7,18 @@ import { Log } from '../../shared/log';
 export class GetTransactionByIdUseCase {
   constructor(private transactionService: TransactionService) {}
 
-  execute(id: string): Promise<TransactionDTO> {
+  async execute(id: string): Promise<TransactionDTO> {
     Log.info('GetTransactionByIdUseCase', `Getting transaction with id ${id}`);
-    return this.transactionService.getTransactionById(id);
+
+    const transaction = await this.transactionService.getTransactionById(id);
+
+    Log.info(
+      'GetTransactionByIdUseCase',
+      `Transaction with id ${id} retrieved successfully`,
+    );
+
+    return transaction;
   }
 }
+
+// TODO: Check if this is a requirement for the project
