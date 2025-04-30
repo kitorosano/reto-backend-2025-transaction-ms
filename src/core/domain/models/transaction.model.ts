@@ -5,8 +5,9 @@ export class Transaction {
   id: string;
   category: string;
   amount: number;
+  // type: string; // TODO: add field "type" (income/expense)
   currency: TransactionCurrency;
-  datetime: Date;
+  datetime: Date; // TODO: rename to "date"
   description: string;
   userId: string;
 

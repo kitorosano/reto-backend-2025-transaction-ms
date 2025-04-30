@@ -15,7 +15,7 @@ export class CreateTransactionUseCase {
   async execute(dto: CreateTransactionDTO): Promise<Transaction> {
     Log.info(
       'CreateTransactionUseCase',
-      `Creating new transaction for userId ${dto.userId}`,
+      `Creating new transaction for USERID ${dto.userId}`,
     );
 
     const transaction = this.factory.createFromDTO(dto);

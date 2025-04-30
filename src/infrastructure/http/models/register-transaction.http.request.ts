@@ -1,5 +1,5 @@
 import {
-  IsDate,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -13,17 +13,19 @@ export class RegisterTransactionHTTPRequest {
   @IsNotEmpty()
   category: string;
 
-  @IsNumber()
+  @IsNumber({
+    allowInfinity: false,
+    allowNaN: false,
+  })
   @IsNotEmpty()
   amount: number;
 
-  @IsString()
-  @IsOptional()
   @IsEnum(TransactionCurrency)
+  @IsOptional()
   currency?: TransactionCurrency;
 
+  @IsDateString()
   @IsNotEmpty()
-  @IsDate()
   datetime: string;
 
   @IsString()

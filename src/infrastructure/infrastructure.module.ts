@@ -13,8 +13,7 @@ export class InfrastructureModule {
     //   driver === 'mongodb'
     //     ? MongooseModule.forRoot(environment.mongoUri)
     //     : null;
-    const driverImport = MongooseModule.forRoot(environment.mongoUri);
-
+    const driverImport = MongooseModule.forRoot(environment.driverUri);
 
     return {
       module: InfrastructureModule,

@@ -7,7 +7,7 @@ import { RegisterTransactionHTTPRequest } from '../models/register-transaction.h
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 export class TransactionHTTPMapper {
-  static toDTO(request: RegisterTransactionHTTPRequest): CreateTransactionDTO {
+  static toDTO(request: RegisterTransactionHTTPRequest, userId: string): CreateTransactionDTO {
     const dto = new CreateTransactionDTO();
 
     dto.category = request.category;
@@ -15,7 +15,7 @@ export class TransactionHTTPMapper {
     dto.currency = request.currency;
     dto.datetime = new Date(request.datetime);
     dto.description = request.description;
-    dto.userId = '1'; // TODO: get userId from request header or auth token
+    dto.userId = userId;
 
     return dto;
   }
@@ -33,5 +33,3 @@ export class TransactionHTTPMapper {
     return response;
   }
 }
-
-// TODO: Can this be an injectable class?

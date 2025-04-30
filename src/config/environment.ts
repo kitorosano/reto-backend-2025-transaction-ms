@@ -18,10 +18,7 @@ const environmentSchema = joi
       .default('development'),
     PORT: joi.number().required(),
     NATS_SERVERS: joi.array().items(joi.string()).required(),
-    DRIVER_TYPE: joi
-      .string()
-      .valid('mongodb')
-      .required(),
+    DRIVER_TYPE: joi.string().valid('mongodb').required(),
     DRIVER_URI: joi.string().required(),
   })
   .unknown(true);
@@ -41,6 +38,6 @@ export default {
   name: environment.NODE_ENV,
   port: environment.PORT,
   natsServers: environment.NATS_SERVERS,
-  mongoUri: environment.DRIVER_URI,
+  driverUri: environment.DRIVER_URI,
   driver: environment.DRIVER_TYPE as ApplicationBootstrapOptions['driver'],
 };

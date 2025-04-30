@@ -5,8 +5,8 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { Log } from '../../../common/log';
 import { ResourceNotFoundException } from '../../../common/exceptions/application.exceptions';
+import { Log } from '../../../common/log';
 
 @Catch(ResourceNotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
