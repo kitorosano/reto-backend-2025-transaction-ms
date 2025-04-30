@@ -1,14 +1,16 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Error, Model } from 'mongoose';
 import {
+  InvalidEntityPropValueException,
+  UnexpectedRepositoryException,
+} from '../../../common/exceptions/infrastructure.exceptions';
+import { TransactionRepositoryPort } from '../../../core/application/ports/outbounds/transaction.repository.port';
+import { Transaction } from '../../../core/domain/models/transaction.model';
+import {
   TransactionMongoDBDocument,
   TransactionMongoDBEntity,
 } from '../entities/transaction.mongodb.entity';
-import { InvalidIdCustomException } from '../exceptions/invalid-id.exception';
-import { MongoDBAdapterCustomException } from '../exceptions/mongodb-adapter.exception';
 import { TransactionMongoDBMapper } from '../mappers/transaction.mongodb.mapper';
-import { Transaction } from '../../../core/domain/models/transaction.model';
-import { TransactionRepositoryPort } from '../../../core/application/ports/outbounds/transaction.repository.port';
 
 export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
   constructor(
@@ -23,9 +25,7 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
 
       return TransactionMongoDBMapper.toModel(savedEntity);
     } catch (error) {
-      throw new MongoDBAdapterCustomException(
-        'Error saving transaction to MongoDB',
-      );
+      throw new UnexpectedRepositoryException('Error saving transaction');
     }
   }
 
@@ -38,10 +38,10 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return TransactionMongoDBMapper.toModel(entity);
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new InvalidIdCustomException('Invalid ID format', id);
+        throw new InvalidEntityPropValueException('Invalid ID format', id);
       }
-      throw new MongoDBAdapterCustomException(
-        'Error finding transaction by ID in MongoDB',
+      throw new UnexpectedRepositoryException(
+        'Error finding transaction by ID',
       );
     }
   }
@@ -55,10 +55,34 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new InvalidIdCustomException('Invalid ID format', userId);
+        throw new InvalidEntityPropValueException('Invalid ID format', userId);
       }
-      throw new MongoDBAdapterCustomException(
-        'Error finding transactions by user in MongoDB',
+      throw new UnexpectedRepositoryException(
+        'Error finding transactions by user',
+      );
+    }
+  }
+
+  async findByUserAndDateRange(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]> {
+    try {
+      const entities = await this.transactionEntity
+        .find({
+          userId,
+          datetime: { $gte: startDate, $lte: endDate },
+        })
+        .exec();
+
+      return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
+    } catch (error) {
+      if (error instanceof Error.CastError) {
+        throw new InvalidEntityPropValueException('Invalid ID format', userId);
+      }
+      throw new UnexpectedRepositoryException(
+        'Error finding transactions by user and date range',
       );
     }
   }

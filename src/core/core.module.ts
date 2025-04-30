@@ -1,15 +1,21 @@
 import { DynamicModule, Module, Type } from '@nestjs/common';
-import { TransactionHTTPAdapter } from 'src/infrastructure/http/controllers/transaction.http.adapter';
-import { CreateTransactionUseCase } from '../core/application/usecases/create-transaction.usecase';
-import { GetTransactionByIdUseCase } from '../core/application/usecases/get-transaction-by-id.usecase';
+import { TransactionHTTPAdapter } from '../infrastructure/http/controllers/transaction.http.adapter';
+import { CreateTransactionUseCase } from './application/usecases/create-transaction.usecase';
+import { GetTransactionByIdUseCase } from './application/usecases/get-transaction-by-id.usecase';
 import { TransactionServicePort } from './application/ports/inbounds/transaction.service.port';
-import { TransactionService } from './application/transaction.service';
+import { TransactionService } from './application/services/transaction.service';
 import { GetUserTransactionHistoryUseCase } from './application/usecases/get-user-transaction-history.usecase';
 import { TransactionFactory } from './domain/factories/transaction.factory';
+import { MonthlyReportHTTPAdapter } from '../infrastructure/http/controllers/monthly-report.http.adapter';
+import { MonthlyReportServicePort } from './application/ports/inbounds/monthly-report.service.port';
+import { MonthlyReportService } from './application/services/monthly-reports.service';
+import { GenerateMonthlyReportUseCase } from './application/usecases/generate-monthly-report.usecase';
+import { MonthlyReportFactory } from './domain/factories/monthly-report.factory';
 
 @Module({
-  controllers: [TransactionHTTPAdapter],
+  controllers: [TransactionHTTPAdapter, MonthlyReportHTTPAdapter],
   providers: [
+    // Transaction
     {
       provide: TransactionServicePort,
       useClass: TransactionService,
@@ -18,6 +24,13 @@ import { TransactionFactory } from './domain/factories/transaction.factory';
     CreateTransactionUseCase,
     GetTransactionByIdUseCase,
     GetUserTransactionHistoryUseCase,
+    // Monthly Report
+    {
+      provide: MonthlyReportServicePort,
+      useClass: MonthlyReportService,
+    },
+    MonthlyReportFactory,
+    GenerateMonthlyReportUseCase
   ],
 })
 export class CoreModule {

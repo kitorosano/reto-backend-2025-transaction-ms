@@ -5,4 +5,10 @@ export abstract class TransactionRepositoryPort {
   abstract findById(id: string): Promise<Transaction | null>;
 
   abstract findByUser(userId: string): Promise<Transaction[]>;
+
+  abstract findByUserAndDateRange(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]>;
 }

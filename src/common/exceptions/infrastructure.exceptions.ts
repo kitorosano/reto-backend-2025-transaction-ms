@@ -1,13 +1,20 @@
-export class InvalidIdCustomException extends Error {
+export class InvalidRequestPropValueException extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidRequestValueException';
+  }
+}
+
+export class InvalidEntityPropValueException extends Error {
   resource: string;
   constructor(message: string, resource: string) {
     super(message);
-    this.name = 'InvalidIdCustomException';
+    this.name = 'InvalidEntityPropertyValueException';
     this.resource = resource;
   }
 }
 
-export class MongoDBAdapterCustomException extends Error {
+export class UnexpectedRepositoryException extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'MongoDBAdapterCustomException';
