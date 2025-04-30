@@ -1,5 +1,4 @@
-import { Transaction } from '../models/transaction.model';
-
+import { Transaction } from '../../../domain/models/transaction.model';
 export abstract class TransactionRepositoryPort {
   abstract save(transaction: Transaction): Promise<Transaction>;
 

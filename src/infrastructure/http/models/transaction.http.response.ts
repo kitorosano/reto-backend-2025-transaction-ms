@@ -1,4 +1,4 @@
-import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
+import { TransactionCurrency } from '../../../common/dto/transaction.dto';
 
 export class TransactionHTTPResponse {
   id: string;

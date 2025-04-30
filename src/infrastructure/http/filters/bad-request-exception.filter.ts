@@ -5,12 +5,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { Log } from '../../../shared/log';
-import { BadRequestCustomException } from '../../../domain/exceptions/bad-request.exception';
-
-@Catch(BadRequestCustomException)
-export class BadRequestCustomExceptionFilter implements ExceptionFilter {
-  catch(exception: BadRequestCustomException, host: ArgumentsHost) {
+import { Log } from '../../../common/log';
+import { BusinessRuleViolationException } from '../../../common/exceptions/application.exceptions';
+@Catch(BusinessRuleViolationException)
+export class BadRequestExceptionFilter implements ExceptionFilter {
+  catch(exception: BusinessRuleViolationException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();

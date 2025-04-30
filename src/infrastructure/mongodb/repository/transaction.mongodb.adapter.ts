@@ -1,7 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Error, Model } from 'mongoose';
-import { Transaction } from '../../../domain/models/transaction.model';
-import { TransactionRepositoryPort } from '../../../domain/ports/transaction.repository.port';
 import {
   TransactionMongoDBDocument,
   TransactionMongoDBEntity,
@@ -9,6 +7,8 @@ import {
 import { InvalidIdCustomException } from '../exceptions/invalid-id.exception';
 import { MongoDBAdapterCustomException } from '../exceptions/mongodb-adapter.exception';
 import { TransactionMongoDBMapper } from '../mappers/transaction.mongodb.mapper';
+import { Transaction } from '../../../core/domain/models/transaction.model';
+import { TransactionRepositoryPort } from '../../../core/application/ports/outbounds/transaction.repository.port';
 
 export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
   constructor(

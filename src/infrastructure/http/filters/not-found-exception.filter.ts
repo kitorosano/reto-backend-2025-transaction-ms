@@ -5,13 +5,12 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { NotFoundCustomException } from '../../../domain/exceptions/not-found.exception';
-import { Log } from '../../../shared/log';
-import { InvalidIdCustomException } from '../../mongodb/exceptions/invalid-id.exception';
+import { Log } from '../../../common/log';
+import { ResourceNotFoundException } from '../../../common/exceptions/application.exceptions';
 
-@Catch(NotFoundCustomException, InvalidIdCustomException)
-export class NotFoundCustomExceptionFilter implements ExceptionFilter {
-  catch(exception: NotFoundCustomException, host: ArgumentsHost) {
+@Catch(ResourceNotFoundException)
+export class NotFoundExceptionFilter implements ExceptionFilter {
+  catch(exception: ResourceNotFoundException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();

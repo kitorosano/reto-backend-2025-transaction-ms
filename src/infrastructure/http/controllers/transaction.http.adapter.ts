@@ -7,24 +7,18 @@ import {
   Post,
   UseFilters,
 } from '@nestjs/common';
-import { CreateTransactionUseCase } from '../../../application/usecases/create-transaction.usecase';
-import { GetTransactionByIdUseCase } from '../../../application/usecases/get-transaction-by-id.usecase';
-import { GetTransactionHistoryUseCase } from '../../../application/usecases/get-transaction-history.usecase';
-import { Log } from '../../../shared/log';
-import { BadRequestCustomExceptionFilter } from '../filters/bad-request-exception.filter';
-import { NotFoundCustomExceptionFilter } from '../filters/not-found-exception.filter';
+import { Log } from '../../../common/log';
+import { TransactionServicePort } from '../../../core/application/ports/inbounds/transaction.service.port';
+import { BadRequestExceptionFilter } from '../filters/bad-request-exception.filter';
+import { NotFoundExceptionFilter } from '../filters/not-found-exception.filter';
 import { TransactionHTTPMapper } from '../mappers/transaction.http.mapper';
 import { RegisterTransactionHTTPRequest } from '../models/register-transaction.http.request';
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 @Controller('transactions')
-@UseFilters(BadRequestCustomExceptionFilter, NotFoundCustomExceptionFilter)
+@UseFilters(BadRequestExceptionFilter, NotFoundExceptionFilter)
 export class TransactionHTTPAdapter {
-  constructor(
-    private createTransactionUseCase: CreateTransactionUseCase,
-    private getTransactionsByUserUseCase: GetTransactionHistoryUseCase,
-    private getTransactionByIdUseCase: GetTransactionByIdUseCase,
-  ) {}
+  constructor(private application: TransactionServicePort) {}
 
   @Post()
   @HttpCode(201)
@@ -39,7 +33,7 @@ export class TransactionHTTPAdapter {
 
     const dto = TransactionHTTPMapper.toDTO(request);
 
-    const transaction = await this.createTransactionUseCase.execute(dto);
+    const transaction = await this.application.createTransaction(dto);
 
     return TransactionHTTPMapper.toResponse(transaction);
   }
@@ -54,8 +48,7 @@ export class TransactionHTTPAdapter {
       userId,
     );
 
-    const transactions =
-      await this.getTransactionsByUserUseCase.execute(userId);
+    const transactions = await this.application.getTransactionsByUser(userId);
 
     return transactions.map((transaction) =>
       TransactionHTTPMapper.toResponse(transaction),
@@ -64,13 +57,13 @@ export class TransactionHTTPAdapter {
 
   @Get(':id')
   @HttpCode(200)
-  @UseFilters(NotFoundCustomExceptionFilter)
+  @UseFilters(NotFoundExceptionFilter)
   async getTransaction(
     @Param('id') id: string,
   ): Promise<TransactionHTTPResponse> {
     Log.info('TransactionHTTPAdapter', '(GET) Get Transaction by ID', id);
 
-    const transaction = await this.getTransactionByIdUseCase.execute(id);
+    const transaction = await this.application.getTransactionById(id);
 
     return TransactionHTTPMapper.toResponse(transaction);
   }

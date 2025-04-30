@@ -1,8 +1,8 @@
-export class NotFoundCustomException extends Error {
+export class ResourceNotFoundException extends Error {
   resource: string;
   constructor(message: string, resource: string) {
     super(message);
-    this.name = 'NotFoundCustomException';
+    this.name = 'ResourceNotFoundException';
     this.resource = resource;
   }
 }

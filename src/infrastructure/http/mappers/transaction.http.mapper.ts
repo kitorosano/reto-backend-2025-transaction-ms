@@ -1,8 +1,8 @@
-import { CreateTransactionDTO } from '../../../shared/dto/create-transaction.dto';
+import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
 import {
   TransactionCurrency,
   TransactionDTO,
-} from '../../../shared/dto/transaction.dto';
+} from '../../../common/dto/transaction.dto';
 import { RegisterTransactionHTTPRequest } from '../models/register-transaction.http.request';
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 

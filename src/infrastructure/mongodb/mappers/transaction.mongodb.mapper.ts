@@ -1,5 +1,5 @@
-import { Transaction } from '../../../domain/models/transaction.model';
-import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
+import { TransactionCurrency } from '../../../common/dto/transaction.dto';
+import { Transaction } from '../../../core/domain/models/transaction.model';
 import { TransactionMongoDBDocument } from '../entities/transaction.mongodb.entity';
 
 export class TransactionMongoDBMapper {
