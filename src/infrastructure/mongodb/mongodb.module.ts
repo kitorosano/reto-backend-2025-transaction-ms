@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import environment from 'src/config/environment';
-import { TransactionRepositoryPort } from '../../domain/ports/transaction.repository.port';
+import { TransactionRepositoryPort } from '../../core/application/ports/outbounds/transaction.repository.port';
 import {
   TransactionMongoDBEntity,
   TransactionSchema,
@@ -10,12 +9,10 @@ import { TransactionMongoDBAdapter } from './repository/transaction.mongodb.adap
 
 @Module({
   imports: [
-    MongooseModule.forRoot(environment.mongoUri),
     MongooseModule.forFeature([
       { name: TransactionMongoDBEntity.name, schema: TransactionSchema },
     ]),
   ],
-  controllers: [],
   providers: [
     {
       provide: TransactionRepositoryPort,
