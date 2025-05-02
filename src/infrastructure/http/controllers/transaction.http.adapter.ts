@@ -6,20 +6,22 @@ import {
   Param,
   Post,
   UseFilters,
+  UseGuards,
   UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { Log } from '../../../common/log';
-import { customValidationPipeExceptionFactory } from '../../../common/utils';
 import { TransactionServicePort } from '../../../core/application/ports/inbounds/transaction.service.port';
-import { BadRequestExceptionFilter } from '../filters/bad-request-exception.filter';
-import { NotFoundExceptionFilter } from '../filters/not-found-exception.filter';
+import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { RequestValidationPipe } from '../common/pipes/requests-validation.pipe';
 import { TransactionHTTPMapper } from '../mappers/transaction.http.mapper';
 import { RegisterTransactionHTTPRequest } from '../models/register-transaction.http.request';
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 @Controller('transactions')
-@UseFilters(BadRequestExceptionFilter, NotFoundExceptionFilter)
+@UseFilters(CustomExceptionFilter)
+@UsePipes(RequestValidationPipe)
+@UseGuards(AuthGuard)
 export class TransactionHTTPAdapter {
   constructor(private application: TransactionServicePort) {}
 
@@ -28,11 +30,10 @@ export class TransactionHTTPAdapter {
   async registerTransaction(
     @Body() request: RegisterTransactionHTTPRequest,
   ): Promise<TransactionHTTPResponse> {
-    const userId = '1'; // This should be replaced with actual user ID from request context or token
-
+    const userId = '1'; // TODO: This should be replaced with actual user ID from request context or token
     Log.info(
       'TransactionHTTPAdapter',
-      '(POST) Register New Transaction',
+      `(POST) Register New Transaction by USERID ${userId}`,
       request,
     );
 
@@ -46,11 +47,10 @@ export class TransactionHTTPAdapter {
   @Get()
   @HttpCode(200)
   async getUserTransactions(): Promise<TransactionHTTPResponse[]> {
-    const userId = '1'; // This should be replaced with actual user ID from request context or token
+    const userId = '1'; // TODO: This should be replaced with actual user ID from request context or token
     Log.info(
       'TransactionHTTPAdapter',
-      `(GET) Get Transactions by USERID`,
-      userId,
+      `(GET) Get Transactions by USERID ${userId}`,
     );
 
     const transactions = await this.application.getTransactionsByUser(userId);
@@ -62,11 +62,10 @@ export class TransactionHTTPAdapter {
 
   @Get(':id')
   @HttpCode(200)
-  @UseFilters(NotFoundExceptionFilter)
   async getTransaction(
     @Param('id') id: string,
   ): Promise<TransactionHTTPResponse> {
-    Log.info('TransactionHTTPAdapter', '(GET) Get Transaction by ID', id);
+    Log.info('TransactionHTTPAdapter', `(GET) Get Transaction by ID ${id}`);
 
     const transaction = await this.application.getTransactionById(id);
 

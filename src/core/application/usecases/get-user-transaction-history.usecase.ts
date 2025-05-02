@@ -13,6 +13,8 @@ export class GetUserTransactionHistoryUseCase {
       `Getting transaction history for userId ${userId}`,
     );
 
+    // TODO: Create UUID Value-Object first and then validate
+
     const transactionHistory = await this.repository.findByUser(userId);
 
     Log.info(

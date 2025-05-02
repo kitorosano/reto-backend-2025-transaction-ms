@@ -18,6 +18,8 @@ export class CreateTransactionUseCase {
       `Creating new transaction for USERID ${dto.userId}`,
     );
 
+    // TODO: Create UUID first and then validate if duplicate transaction exists before creating
+
     const transaction = this.factory.createFromDTO(dto);
     const transactionCreated = await this.repository.save(transaction);
 

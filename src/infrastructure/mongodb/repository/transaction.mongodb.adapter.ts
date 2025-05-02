@@ -1,9 +1,8 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Error, Model } from 'mongoose';
-import {
-  InvalidEntityPropValueException,
-  UnexpectedRepositoryException,
-} from '../../../common/exceptions/infrastructure.exceptions';
+import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
+import { BadModelException } from '../../../common/errors/exceptions/bad-model.exception';
+import { UnexpectedException } from '../../../common/errors/exceptions/unexpected.exception';
 import { TransactionRepositoryPort } from '../../../core/application/ports/outbounds/transaction.repository.port';
 import { Transaction } from '../../../core/domain/models/transaction.model';
 import {
@@ -25,7 +24,10 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
 
       return TransactionMongoDBMapper.toModel(savedEntity);
     } catch (error) {
-      throw new UnexpectedRepositoryException('Error saving transaction');
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
+      );
     }
   }
 
@@ -38,10 +40,11 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return TransactionMongoDBMapper.toModel(entity);
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new InvalidEntityPropValueException('Invalid ID format', id);
+        throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
       }
-      throw new UnexpectedRepositoryException(
-        'Error finding transaction by ID',
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
       );
     }
   }
@@ -55,10 +58,11 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new InvalidEntityPropValueException('Invalid ID format', userId);
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
       }
-      throw new UnexpectedRepositoryException(
-        'Error finding transactions by user',
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
       );
     }
   }
@@ -79,10 +83,11 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new InvalidEntityPropValueException('Invalid ID format', userId);
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
       }
-      throw new UnexpectedRepositoryException(
-        'Error finding transactions by user and date range',
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
       );
     }
   }

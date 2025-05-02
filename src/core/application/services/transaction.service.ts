@@ -1,7 +1,6 @@
-import { Injectable, UseFilters } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
 import { TransactionDTO } from '../../../common/dto/transaction.dto';
-import { InvalidModelPropertyValueException } from '../../../common/exceptions/domain.exceptions';
 import { TransactionMapper } from '../mappers/transaction.mapper';
 import { TransactionServicePort } from '../ports/inbounds/transaction.service.port';
 import { CreateTransactionUseCase } from '../usecases/create-transaction.usecase';
@@ -9,7 +8,6 @@ import { GetTransactionByIdUseCase } from '../usecases/get-transaction-by-id.use
 import { GetUserTransactionHistoryUseCase } from '../usecases/get-user-transaction-history.usecase';
 
 @Injectable()
-@UseFilters(InvalidModelPropertyValueException)
 export class TransactionService implements TransactionServicePort {
   constructor(
     private readonly createTransactionUseCase: CreateTransactionUseCase,

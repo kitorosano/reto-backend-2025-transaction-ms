@@ -1,60 +1,57 @@
-import { InvalidModelPropertyValueException } from '../../../common/exceptions/domain.exceptions';
+import { BadModelException } from 'src/common/errors/exceptions/bad-model.exception';
+import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
+
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export class MonthlyReport {
   id: string;
+  userId: string; // TODO: change to value object
   month: number;
   year: number;
   totalIncome: number;
   totalExpense: number;
   difference: number;
-  mostSpentCategory: string;
+  mostSpentCategory: string; // TODO: change to value object
 
   // Business logic
   // TODO: add business logic methods if needed
 
-  // Setters
+  generateId() {
+    this.id = crypto.randomUUID();
+  }
+
   setId(id: string) {
+    if (!UUID_REGEX.test(id)) {
+      throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
+    }
     this.id = id;
   }
 
-  setMonth(month: number) {
-    if (!month) {
-      throw new InvalidModelPropertyValueException('Month cannot be empty');
+  setUserId(userId: string) {
+    if (!UUID_REGEX.test(userId)) {
+      throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
     }
+    this.userId = userId;
+  }
+
+  setMonth(month: number) {
     this.month = month;
   }
 
   setYear(year: number) {
-    if (!year) {
-      throw new InvalidModelPropertyValueException('Year cannot be empty');
-    }
     this.year = year;
   }
 
   setTotalIncome(totalIncome: number) {
-    if (!totalIncome) {
-      throw new InvalidModelPropertyValueException(
-        'TotalIncome cannot be empty',
-      );
-    }
     this.totalIncome = totalIncome;
   }
 
   setTotalExpense(totalExpense: number) {
-    if (!totalExpense) {
-      throw new InvalidModelPropertyValueException(
-        'TotalExpense cannot be empty',
-      );
-    }
     this.totalExpense = totalExpense;
   }
 
   calculateDifference() {
-    if (!this.totalIncome || !this.totalExpense) {
-      throw new InvalidModelPropertyValueException(
-        'Difference cannot be calculated without totalIncome and totalExpense',
-      );
-    }
     this.difference = this.totalIncome - Math.abs(this.totalExpense);
   }
 
@@ -62,11 +59,6 @@ export class MonthlyReport {
     categoryCount: Record<string, number>,
     defaultCategory: string,
   ) {
-    if (!categoryCount) {
-      throw new InvalidModelPropertyValueException(
-        'MostSpentCategory cannot be calculated without categoryCount',
-      );
-    }
     const mostSpentCategoryRecord = Object.entries(categoryCount).reduce(
       (prev, current) => {
         if (prev[1] > current[1]) {
