@@ -9,7 +9,7 @@ import { TransactionDTO } from '../../shared/dto/transaction.dto';
 import { BudgetMapper } from './mappers/budget.mapper';
 import { MonthlyReportMapper } from './mappers/monthly-report.mapper';
 import { TransactionMapper } from './mappers/transaction.mapper';
-import { BudgetsServicePort } from './ports/inbounds/budgets.service.port';
+import { BudgetServicePort } from './ports/inbounds/budget.service.port';
 import { MonthlyReportServicePort } from './ports/inbounds/monthly-report.service.port';
 import { TransactionServicePort } from './ports/inbounds/transaction.service.port';
 import { GenerateMonthlyReportUseCase } from './usecases/generate-monthly-report.usecase';
@@ -23,10 +23,7 @@ import { RemoveBudgetFromUserUseCase } from './usecases/remove-budget-from-user.
 
 @Injectable()
 export class ApplicationService
-  implements
-    TransactionServicePort,
-    MonthlyReportServicePort,
-    BudgetsServicePort
+  implements TransactionServicePort, MonthlyReportServicePort, BudgetServicePort
 {
   constructor(
     private readonly registerTransactionUseCase: RegisterTransactionUseCase,

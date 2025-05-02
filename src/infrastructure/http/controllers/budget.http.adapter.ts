@@ -13,7 +13,7 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { BudgetsServicePort } from '../../../core/application/ports/inbounds/budgets.service.port';
+import { BudgetServicePort } from '../../../core/application/ports/inbounds/budget.service.port';
 import { Log } from '../../../shared/utils/log';
 import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
@@ -30,7 +30,7 @@ import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.reques
 @UsePipes(RequestValidationPipe)
 @UseGuards(AuthGuard)
 export class BudgetHTTPAdapter {
-  constructor(private application: BudgetsServicePort) {}
+  constructor(private application: BudgetServicePort) {}
 
   @Post()
   @HttpCode(201)

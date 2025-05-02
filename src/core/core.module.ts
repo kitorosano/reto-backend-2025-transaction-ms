@@ -3,7 +3,7 @@ import { BudgetHTTPAdapter } from '../infrastructure/http/controllers/budget.htt
 import { MonthlyReportHTTPAdapter } from '../infrastructure/http/controllers/monthly-report.http.adapter';
 import { TransactionHTTPAdapter } from '../infrastructure/http/controllers/transaction.http.adapter';
 import { ApplicationService } from './application/application.service';
-import { BudgetsServicePort } from './application/ports/inbounds/budgets.service.port';
+import { BudgetServicePort } from './application/ports/inbounds/budget.service.port';
 import { MonthlyReportServicePort } from './application/ports/inbounds/monthly-report.service.port';
 import { TransactionServicePort } from './application/ports/inbounds/transaction.service.port';
 import { GenerateMonthlyReportUseCase } from './application/usecases/generate-monthly-report.usecase';
@@ -42,7 +42,7 @@ import { UuidService } from './domain/services/uuid.service';
       useClass: ApplicationService,
     },
     {
-      provide: BudgetsServicePort,
+      provide: BudgetServicePort,
       useClass: ApplicationService,
     },
 
