@@ -9,9 +9,9 @@ import {
 import { TransactionCurrency } from '../../../common/dto/transaction.dto';
 
 export class RegisterTransactionHTTPRequest {
-  @IsString()
+  @IsDateString()
   @IsNotEmpty()
-  category: string;
+  datetime: string;
 
   @IsNumber({
     allowInfinity: false,
@@ -21,12 +21,12 @@ export class RegisterTransactionHTTPRequest {
   amount: number;
 
   @IsEnum(TransactionCurrency)
-  @IsOptional()
-  currency?: TransactionCurrency;
-
-  @IsDateString()
   @IsNotEmpty()
-  datetime: string;
+  currency: TransactionCurrency;
+
+  @IsString()
+  @IsNotEmpty()
+  category: string;
 
   @IsString()
   @IsOptional()

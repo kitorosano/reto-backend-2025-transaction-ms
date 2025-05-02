@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
-import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
-import { TransactionCurrency } from '../../../common/dto/transaction.dto';
-import { TransactionService } from './transaction.service';
+import { CreateTransactionDTO } from '../../common/dto/create-transaction.dto';
+import { TransactionCurrency } from '../../common/dto/transaction.dto';
+import { ApplicationService } from './application.service';
+import { TransactionRepositoryPort } from './ports/outbounds/transaction.repository.port';
 
 describe('TransactionService', () => {
-  let service: TransactionService;
+  let service: ApplicationService;
   let mockRepository: TransactionRepositoryPort; // TODO: this is for usecase, not for service
 
   beforeEach(async () => {
@@ -17,12 +17,12 @@ describe('TransactionService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        TransactionService,
+        ApplicationService,
         { provide: TransactionRepositoryPort, useValue: mockRepository },
       ],
     }).compile();
 
-    service = module.get<TransactionService>(TransactionService);
+    service = module.get<ApplicationService>(ApplicationService);
   });
 
   it('should be defined', () => {

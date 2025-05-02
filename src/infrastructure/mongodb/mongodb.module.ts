@@ -18,6 +18,7 @@ import { BudgetMongoDBEntity, BudgetSchema } from './entities/budget.mongodb.ent
     ]),
   ],
   providers: [
+    // Outbound Ports
     {
       provide: TransactionRepositoryPort,
       useClass: TransactionMongoDBAdapter,

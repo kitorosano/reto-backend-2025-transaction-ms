@@ -1,37 +1,18 @@
-import { BadModelException } from 'src/common/errors/exceptions/bad-model.exception';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 export class MonthlyReport {
-  id: string; // TODO: change to value object
-  userId: string; // TODO: change to value object
+  id: string;
+  userId: string;
   month: number;
   year: number;
   totalIncome: number;
   totalExpense: number;
   difference: number;
-  mostSpentCategory: string; // TODO: change to value object
-
-  // Business logic
-  // TODO: add business logic methods if needed
-
-  generateId() {
-    this.id = crypto.randomUUID();
-  }
+  mostSpentCategory: string;
 
   setId(id: string) {
-    if (!UUID_REGEX.test(id)) {
-      throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
-    }
     this.id = id;
   }
 
   setUserId(userId: string) {
-    if (!UUID_REGEX.test(userId)) {
-      throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
-    }
     this.userId = userId;
   }
 
@@ -51,28 +32,11 @@ export class MonthlyReport {
     this.totalExpense = totalExpense;
   }
 
-  calculateDifference() {
-    this.difference = this.totalIncome - Math.abs(this.totalExpense);
+  setDifference(difference: number) {
+    this.difference = difference;
   }
 
-  calculateMostSpentCategory(
-    categoryCount: Record<string, number>,
-    defaultCategory: string,
-  ) {
-    const mostSpentCategoryRecord = Object.entries(categoryCount).reduce(
-      (prev, current) => {
-        if (prev[1] > current[1]) {
-          return prev;
-        } else {
-          return current;
-        }
-      },
-    );
-
-    if (mostSpentCategoryRecord) {
-      this.mostSpentCategory = mostSpentCategoryRecord[0];
-    } else {
-      this.mostSpentCategory = defaultCategory;
-    }
+  setMostSpentCategory(mostSpentCategory: string) {
+    this.mostSpentCategory = mostSpentCategory;
   }
 }

@@ -2,7 +2,6 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsPositive,
   IsString,
 } from 'class-validator';
@@ -22,6 +21,6 @@ export class RegisterBudgetHTTPRequest {
   amount: number;
 
   @IsEnum(TransactionCurrency)
-  @IsOptional()
-  currency?: TransactionCurrency;
+  @IsNotEmpty()
+  currency: TransactionCurrency;
 }

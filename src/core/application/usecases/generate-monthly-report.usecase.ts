@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { GenerateMonthlyReportDTO } from '../../../common/dto/generate-monthly-report.dto';
 import { Log } from '../../../common/log';
-import { MonthlyReportFactory } from '../../domain/factories/monthly-report.factory';
 import { MonthlyReport } from '../../domain/models/monthly-report.model';
+import { MonthlyReportService } from '../../domain/services/monthly-report.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
 
 @Injectable()
 export class GenerateMonthlyReportUseCase {
   constructor(
     private repository: TransactionRepositoryPort,
-    private factory: MonthlyReportFactory,
+    private service: MonthlyReportService,
   ) {}
 
   async execute(dto: GenerateMonthlyReportDTO): Promise<MonthlyReport> {
@@ -19,11 +19,11 @@ export class GenerateMonthlyReportUseCase {
       `Generating report from ${year}/${month}, for USERID ${userId}`,
     );
 
+    this.service.validateUserId(userId);
+
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0); // Last day of the month
     endDate.setHours(23, 59, 59, 999); // Set to the end of the day
-
-    // TODO: Create UUID first and then validate if duplicate transaction exists before creating
 
     const transactions = await this.repository.findByUserAndDateRange(
       userId,
@@ -54,11 +54,18 @@ export class GenerateMonthlyReportUseCase {
       }
     });
 
-    const monthlyReport = this.factory.create(userId, year, month, totalIncome, totalExpense, categoryCount);
+    const monthlyReport = this.service.create({
+      userId,
+      year,
+      month,
+      totalIncome,
+      totalExpense,
+      categoryCount,
+    });
 
     Log.info(
       'GenerateMonthlyReportUseCase',
-      `Report generated successfully for USERID ${userId}`,
+      `Report generated successfully with ID ${monthlyReport.id}`,
     );
 
     return monthlyReport;

@@ -4,13 +4,16 @@ import { NotFoundException } from '../../../common/errors/exceptions/not-found.e
 import { Log } from '../../../common/log';
 import { Transaction } from '../../domain/models/transaction.model';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
+import { TransactionService } from '../../domain/services/transaction.service';
 
 @Injectable()
 export class GetTransactionByIdUseCase {
-  constructor(private repository: TransactionRepositoryPort) {}
+  constructor(private repository: TransactionRepositoryPort, private service: TransactionService) {}
 
   async execute(id: string): Promise<Transaction> {
     Log.info('GetTransactionByIdUseCase', `Getting transaction with id ${id}`);
+
+    this.service.validateId(id);
 
     const transaction: Transaction | null = await this.repository.findById(id);
 

@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
 import { Log } from '../../../common/log';
-import { TransactionFactory } from '../../domain/factories/transaction.factory';
 import { Transaction } from '../../domain/models/transaction.model';
+import { TransactionService } from '../../domain/services/transaction.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
 
 @Injectable()
 export class CreateTransactionUseCase {
   constructor(
     private repository: TransactionRepositoryPort,
-    private factory: TransactionFactory,
+    private service: TransactionService,
   ) {}
 
   async execute(dto: CreateTransactionDTO): Promise<Transaction> {
@@ -18,9 +18,14 @@ export class CreateTransactionUseCase {
       `Creating new transaction for USERID ${dto.userId}`,
     );
 
-    // TODO: Create UUID first and then validate if duplicate transaction exists before creating
-
-    const transaction = this.factory.createFromDTO(dto);
+    const transaction = this.service.create({
+      userId: dto.userId,
+      datetime: dto.datetime,
+      amount: dto.amount,
+      currency: dto.currency,
+      category: dto.category,
+      description: dto.description,
+    });
     const transactionCreated = await this.repository.save(transaction);
 
     Log.info(
