@@ -5,7 +5,7 @@ const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export class MonthlyReport {
-  id: string;
+  id: string; // TODO: change to value object
   userId: string; // TODO: change to value object
   month: number;
   year: number;

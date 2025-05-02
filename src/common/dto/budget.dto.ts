@@ -6,4 +6,5 @@ export class BudgetDTO {
   amount: number;
   currency: TransactionCurrency;
   category: string;
+  isActive: boolean;
 }

@@ -1,0 +1,44 @@
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  HttpCode,
+  Post,
+  UseFilters,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+} from '@nestjs/common';
+import { Log } from '../../../common/log';
+import { RegisterBudgetUseCase } from '../../../core/application/usecases/register-budget.usecase';
+import { UserId } from '../common/decorators/user-id.decorator';
+import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { RequestValidationPipe } from '../common/pipes/requests-validation.pipe';
+import { BudgetHTTPMapper } from '../mappers/budget.http.mapper';
+import { BudgetHTTPResponse } from '../models/budget.http.response';
+import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.request';
+
+@Controller('budgets')
+@UseFilters(CustomExceptionFilter)
+@UseInterceptors(ClassSerializerInterceptor)
+@UsePipes(RequestValidationPipe)
+@UseGuards(AuthGuard)
+export class BudgetHTTPAdapter {
+  constructor(private registerBudgetUseCase: RegisterBudgetUseCase) {}
+
+  @Post()
+  @HttpCode(201)
+  async registerBudget(
+    @Body() request: RegisterBudgetHTTPRequest,
+    @UserId() userId: string,
+  ): Promise<BudgetHTTPResponse> {
+    Log.info('ReportHTTPAdapter', `(GET) Register budget for userId ${userId}`);
+
+    const dto = BudgetHTTPMapper.toDTO(request, userId);
+
+    const budget = await this.registerBudgetUseCase.execute(dto);
+
+    return BudgetHTTPMapper.toResponse(budget);
+  }
+}

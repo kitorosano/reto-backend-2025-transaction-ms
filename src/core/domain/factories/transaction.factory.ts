@@ -27,7 +27,7 @@ export class TransactionFactory {
     return transaction;
   }
 
-  createFromDTO(dto: any): Transaction {
+  createFromDTO(dto: any): Transaction { // TODO: Define a proper DTO type
     const transaction = new Transaction();
     transaction.setUserId(dto.userId);
     transaction.setDatetime(dto.datetime);
