@@ -16,6 +16,7 @@ import { RegisterBudgetUseCase } from './application/usecases/register-budget.us
 import { BudgetFactory } from './domain/factories/budget.factory';
 import { MonthlyReportFactory } from './domain/factories/monthly-report.factory';
 import { TransactionFactory } from './domain/factories/transaction.factory';
+import { GetUserBudgetsUseCase } from './application/usecases/get-user-budgets.usecase';
 
 @Module({
   controllers: [
@@ -49,6 +50,7 @@ import { TransactionFactory } from './domain/factories/transaction.factory';
     },
     BudgetFactory,
     RegisterBudgetUseCase,
+    GetUserBudgetsUseCase,
   ],
 })
 export class CoreModule {

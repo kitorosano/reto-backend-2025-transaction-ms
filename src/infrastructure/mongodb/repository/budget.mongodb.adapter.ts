@@ -1,6 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Error, Model } from 'mongoose';
 import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
+import { BadModelException } from '../../../common/errors/exceptions/bad-model.exception';
 import { UnexpectedException } from '../../../common/errors/exceptions/unexpected.exception';
 import { BudgetRepositoryPort } from '../../../core/application/ports/outbounds/budget.repository.port';
 import { Budget } from '../../../core/domain/models/budget.model';
@@ -23,6 +24,24 @@ export class BudgetMongoDBAdapter implements BudgetRepositoryPort {
 
       return BudgetMongoDBMapper.toModel(savedEntity);
     } catch (error) {
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
+      );
+    }
+  }
+
+  async findByUser(userId: string): Promise<Budget[]> {
+    try {
+      const entities = await this.budgetEntity
+        .find({ userId }, null, { sort: { date: -1 } })
+        .exec();
+
+      return entities.map((entity) => BudgetMongoDBMapper.toModel(entity));
+    } catch (error) {
+      if (error instanceof Error.CastError) {
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: check if this is necessary after validating the userId in the application layer
+      }
       throw new UnexpectedException(
         ErrorCodesKeys.REPOSITORY_UNEXPECTED,
         error,
