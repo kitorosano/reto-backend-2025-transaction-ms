@@ -91,4 +91,31 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       );
     }
   }
+
+  async findByUserAndDateRangeAndCategory(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+    category: string,
+  ): Promise<Transaction[]> {
+    try {
+      const entities = await this.transactionEntity
+        .find({
+          userId,
+          datetime: { $gte: startDate, $lte: endDate },
+          category,
+        })
+        .exec();
+
+      return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
+    } catch (error) {
+      if (error instanceof Error.CastError) {
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: check if this is necessary after validating the userId in the application layer
+      }
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
+      );
+    }
+  }
 }

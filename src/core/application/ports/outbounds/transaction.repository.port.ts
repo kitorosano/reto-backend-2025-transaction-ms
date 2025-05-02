@@ -11,4 +11,11 @@ export abstract class TransactionRepositoryPort {
     startDate: Date,
     endDate: Date,
   ): Promise<Transaction[]>;
+
+  abstract findByUserAndDateRangeAndCategory(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+    category: string,
+  ): Promise<Transaction[]>;
 }

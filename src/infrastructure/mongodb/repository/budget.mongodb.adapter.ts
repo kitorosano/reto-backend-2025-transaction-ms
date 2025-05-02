@@ -49,6 +49,29 @@ export class BudgetMongoDBAdapter implements BudgetRepositoryPort {
     }
   }
 
+  async findByUserAndCategory(
+    userId: string,
+    category: string,
+  ): Promise<Budget | null> {
+    try {
+      const entity = await this.budgetEntity
+        .findOne({ userId, category })
+        .exec();
+
+      if (!entity) return null;
+
+      return BudgetMongoDBMapper.toModel(entity);
+    } catch (error) {
+      if (error instanceof Error.CastError) {
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: check if this is necessary after validating the userId in the application layer
+      }
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
+      );
+    }
+  }
+
   async update(budget: Budget): Promise<Budget | null> {
     // Remove the id and userId from the budget object to avoid updating them in the database
     const { id, userId, ...budgetToUpdate } = budget;

@@ -32,6 +32,10 @@ export const EsDictionary = {
       message: 'Solicitud no válida',
       detail: 'La solicitud no cumple con los requisitos necesarios',
     },
+    [ErrorCodesKeys.AMOUNT_EXCEEDS_BUDGET]: {
+      message: 'El monto excede el presupuesto',
+      detail: 'El monto de la transacción excede el presupuesto asignado para la categoría',
+    },
   },
   [ExceptionTypeKeys.NOT_FOUND]: {
     [ErrorCodesKeys.TRANSACTION_NOT_FOUND]: {
