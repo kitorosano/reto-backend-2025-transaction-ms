@@ -10,7 +10,7 @@ import { RegisterBudgetUseCase } from '../usecases/register-budget.usecase';
 export class BudgetsService implements BudgetsServicePort {
   constructor(
     private readonly registerBudgetUseCase: RegisterBudgetUseCase,
-    private readonly getBudgetsByUserUseCase: GetUserBudgetsUseCase,
+    private readonly getUserBudgetsUseCase: GetUserBudgetsUseCase,
   ) {}
 
   async registerBudget(dto: RegisterBudgetDTO): Promise<BudgetDTO> {
@@ -18,8 +18,8 @@ export class BudgetsService implements BudgetsServicePort {
     return BudgetMapper.toDTO(budget);
   }
 
-  async getBudgetsByUser(userId: string): Promise<BudgetDTO[]> {
-    const budgets = await this.getBudgetsByUserUseCase.execute(userId);
+  async getUserBudgets(userId: string): Promise<BudgetDTO[]> {
+    const budgets = await this.getUserBudgetsUseCase.execute(userId);
     return budgets.map(BudgetMapper.toDTO);
   }
 }

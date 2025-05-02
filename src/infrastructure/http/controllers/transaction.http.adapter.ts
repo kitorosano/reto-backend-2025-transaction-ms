@@ -58,7 +58,8 @@ export class TransactionHTTPAdapter {
       `(GET) Get Transactions by USERID ${userId}`,
     );
 
-    const transactions = await this.application.getTransactionsByUser(userId);
+    const transactions =
+      await this.application.getUserTransactionHistory(userId);
 
     return transactions.map((transaction) =>
       TransactionHTTPMapper.toResponse(transaction),
@@ -72,7 +73,7 @@ export class TransactionHTTPAdapter {
   ): Promise<TransactionHTTPResponse> {
     Log.info('TransactionHTTPAdapter', `(GET) Get Transaction by ID ${id}`);
 
-    const transaction = await this.application.getTransactionById(id);
+    const transaction = await this.application.getTransaction(id);
 
     return TransactionHTTPMapper.toResponse(transaction);
   }

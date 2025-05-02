@@ -6,7 +6,7 @@ export abstract class TransactionServicePort {
     transaction: CreateTransactionDTO,
   ): Promise<TransactionDTO>;
 
-  abstract getTransactionById(id: string): Promise<TransactionDTO>;
+  abstract getTransaction(id: string): Promise<TransactionDTO>;
 
-  abstract getTransactionsByUser(userId: string): Promise<TransactionDTO[]>;
+  abstract getUserTransactionHistory(userId: string): Promise<TransactionDTO[]>;
 }

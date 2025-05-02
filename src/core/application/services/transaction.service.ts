@@ -20,12 +20,12 @@ export class TransactionService implements TransactionServicePort {
     return TransactionMapper.toDTO(transaction);
   }
 
-  async getTransactionById(id: string): Promise<TransactionDTO> {
+  async getTransaction(id: string): Promise<TransactionDTO> {
     const transaction = await this.getTransactionByIdUseCase.execute(id);
     return TransactionMapper.toDTO(transaction);
   }
 
-  async getTransactionsByUser(userId: string): Promise<TransactionDTO[]> {
+  async getUserTransactionHistory(userId: string): Promise<TransactionDTO[]> {
     const transactions =
       await this.getUserTransactionHistoryUseCase.execute(userId);
     return transactions.map(TransactionMapper.toDTO);
