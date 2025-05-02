@@ -27,7 +27,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
     Log.error(
       'CustomExceptionFilter',
       `(${request.method}) at {${request.path}} error: `,
-      exception,
+      { exception, cause: exception.cause },
     );
 
     let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;

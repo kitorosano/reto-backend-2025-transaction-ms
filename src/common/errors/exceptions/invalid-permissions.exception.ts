@@ -17,7 +17,6 @@ export class InvalidPermissionsException extends CustomException {
    * @param {any} [error] - The error message or details.
    */
   constructor(key: string, error?: any) {
-    super(key, error);
-    this.name = ExceptionTypeKeys.INVALID_PERMISSIONS;
+    super(key, ExceptionTypeKeys.INVALID_PERMISSIONS, error);
   }
 }

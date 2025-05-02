@@ -17,7 +17,6 @@ export class UnexpectedException extends CustomException {
    * @param {any} [error] - The error message or details.
    */
   constructor(key: string, error?: any) {
-    super(key, error);
-    this.name = ExceptionTypeKeys.UNEXPECTED;
+    super(key, ExceptionTypeKeys.UNEXPECTED, error);
   }
 }

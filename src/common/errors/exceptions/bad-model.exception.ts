@@ -17,7 +17,6 @@ export class BadModelException extends CustomException {
    * @param {any} [error] - The error message or details.
    */
   constructor(key: string, error?: any) {
-    super(key, error);
-    this.name = ExceptionTypeKeys.BAD_MODEL;
+    super(key, ExceptionTypeKeys.BAD_MODEL, error);
   }
 }
