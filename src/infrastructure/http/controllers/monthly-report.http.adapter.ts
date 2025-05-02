@@ -10,7 +10,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { Log } from '../../../common/log';
-import { GenerateMonthlyReportUseCase } from '../../../core/application/usecases/generate-monthly-report.usecase';
+import { MonthlyReportServicePort } from '../../../core/application/ports/inbounds/monthly-report.service.port';
 import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
 import { AuthGuard } from '../common/guards/auth.guard';
@@ -25,9 +25,7 @@ import { MonthlyReportHTTPResponse } from '../models/monthly-report.http.respons
 @UsePipes(RequestValidationPipe)
 @UseGuards(AuthGuard)
 export class MonthlyReportHTTPAdapter {
-  constructor(
-    private generateMonthlyReportUseCase: GenerateMonthlyReportUseCase,
-  ) {}
+  constructor(private application: MonthlyReportServicePort) {}
 
   @Get(':year/:month')
   @HttpCode(200)
@@ -42,7 +40,7 @@ export class MonthlyReportHTTPAdapter {
 
     const dto = MonthlyReportHTTPMapper.toDTO(params, userId);
 
-    const report = await this.generateMonthlyReportUseCase.execute(dto);
+    const report = await this.application.generateMonthlyReport(dto);
 
     return MonthlyReportHTTPMapper.toResponse(report);
   }

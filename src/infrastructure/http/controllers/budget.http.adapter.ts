@@ -10,7 +10,7 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { Log } from '../../../common/log';
-import { RegisterBudgetUseCase } from '../../../core/application/usecases/register-budget.usecase';
+import { BudgetsServicePort } from '../../../core/application/ports/inbounds/budgets.service.port';
 import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
 import { AuthGuard } from '../common/guards/auth.guard';
@@ -25,7 +25,7 @@ import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.reques
 @UsePipes(RequestValidationPipe)
 @UseGuards(AuthGuard)
 export class BudgetHTTPAdapter {
-  constructor(private registerBudgetUseCase: RegisterBudgetUseCase) {}
+  constructor(private application: BudgetsServicePort) {}
 
   @Post()
   @HttpCode(201)
@@ -37,7 +37,7 @@ export class BudgetHTTPAdapter {
 
     const dto = BudgetHTTPMapper.toDTO(request, userId);
 
-    const budget = await this.registerBudgetUseCase.execute(dto);
+    const budget = await this.application.registerBudget(dto);
 
     return BudgetHTTPMapper.toResponse(budget);
   }
