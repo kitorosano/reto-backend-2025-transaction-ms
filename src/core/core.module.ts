@@ -6,13 +6,13 @@ import { ApplicationService } from './application/application.service';
 import { BudgetsServicePort } from './application/ports/inbounds/budgets.service.port';
 import { MonthlyReportServicePort } from './application/ports/inbounds/monthly-report.service.port';
 import { TransactionServicePort } from './application/ports/inbounds/transaction.service.port';
-import { CreateTransactionUseCase } from './application/usecases/create-transaction.usecase';
 import { GenerateMonthlyReportUseCase } from './application/usecases/generate-monthly-report.usecase';
 import { GetTransactionByIdUseCase } from './application/usecases/get-transaction-by-id.usecase';
 import { GetUserBudgetsUseCase } from './application/usecases/get-user-budgets.usecase';
 import { GetUserTransactionHistoryUseCase } from './application/usecases/get-user-transaction-history.usecase';
 import { ModifyBudgetUseCase } from './application/usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './application/usecases/register-budget.usecase';
+import { RegisterTransactionUseCase } from './application/usecases/register-transaction.usecase';
 import { RemoveBudgetFromUserUseCase } from './application/usecases/remove-budget-from-user.usecase';
 import { BudgetService } from './domain/services/budget.service';
 import { MonthlyReportService } from './domain/services/monthly-report.service';
@@ -47,7 +47,7 @@ import { UuidService } from './domain/services/uuid.service';
     },
 
     // Use Cases
-    CreateTransactionUseCase,
+    RegisterTransactionUseCase,
     GetTransactionByIdUseCase,
     GetUserTransactionHistoryUseCase,
     GenerateMonthlyReportUseCase,

@@ -1,4 +1,4 @@
-import { CreateTransactionDTO } from '../../../shared/dto/create-transaction.dto';
+import { RegisterTransactionDTO } from '../../../shared/dto/create-transaction.dto';
 import {
   TransactionCurrency,
   TransactionDTO,
@@ -10,8 +10,8 @@ export class TransactionHTTPMapper {
   static toDTO(
     request: RegisterTransactionHTTPRequest,
     userId: string,
-  ): CreateTransactionDTO {
-    const dto = new CreateTransactionDTO();
+  ): RegisterTransactionDTO {
+    const dto = new RegisterTransactionDTO();
 
     dto.category = request.category;
     dto.amount = request.amount;

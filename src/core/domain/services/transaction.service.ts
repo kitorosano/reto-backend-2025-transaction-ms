@@ -5,7 +5,7 @@ import { BadModelException } from '../../../shared/errors/exceptions/bad-model.e
 import { Transaction } from '../models/transaction.model';
 import { UuidService } from './uuid.service';
 
-interface CreateTransaction {
+interface RegisterTransaction {
   userId: string;
   amount: number;
   datetime: Date;
@@ -30,7 +30,7 @@ export class TransactionService {
     currency,
     category,
     description,
-  }: CreateTransaction): Transaction {
+  }: RegisterTransaction): Transaction {
     const transaction = new Transaction();
 
     transaction.setId(this.uuidService.generate());

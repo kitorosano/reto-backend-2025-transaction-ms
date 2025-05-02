@@ -43,7 +43,7 @@ export class TransactionHTTPAdapter {
 
     const dto = TransactionHTTPMapper.toDTO(request, userId);
 
-    const transaction = await this.application.createTransaction(dto);
+    const transaction = await this.application.registerTransaction(dto);
 
     return TransactionHTTPMapper.toResponse(transaction);
   }

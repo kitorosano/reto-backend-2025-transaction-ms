@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateTransactionUseCase } from '../../../core/application/usecases/create-transaction.usecase';
 import { GetTransactionByIdUseCase } from '../../../core/application/usecases/get-transaction-by-id.usecase';
 import { GetUserTransactionHistoryUseCase } from '../../../core/application/usecases/get-user-transaction-history.usecase';
+import { RegisterTransactionUseCase } from '../../../core/application/usecases/register-transaction.usecase';
 import { TransactionHTTPAdapter } from './transaction.http.adapter';
 
 describe('TransactionHTTPAdapter', () => {
   let controller: TransactionHTTPAdapter;
-  let mockCreateTransactionUseCase: CreateTransactionUseCase;
+  let mockRegisterTransactionUseCase: RegisterTransactionUseCase;
   let mockGetUserTransactionHistoryUseCase: GetUserTransactionHistoryUseCase;
   let mockGetTransactionByIdUseCase: GetTransactionByIdUseCase;
 
   beforeEach(async () => {
-    mockCreateTransactionUseCase = {
+    mockRegisterTransactionUseCase = {
       execute: jest.fn(),
-    } as unknown as CreateTransactionUseCase;
+    } as unknown as RegisterTransactionUseCase;
 
     mockGetUserTransactionHistoryUseCase = {
       execute: jest.fn(),
@@ -27,8 +27,8 @@ describe('TransactionHTTPAdapter', () => {
       controllers: [TransactionHTTPAdapter],
       providers: [
         {
-          provide: CreateTransactionUseCase,
-          useValue: mockCreateTransactionUseCase,
+          provide: RegisterTransactionUseCase,
+          useValue: mockRegisterTransactionUseCase,
         },
         {
           provide: GetUserTransactionHistoryUseCase,

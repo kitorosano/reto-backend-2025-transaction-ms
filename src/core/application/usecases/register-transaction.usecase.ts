@@ -1,20 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDTO } from '../../../shared/dto/create-transaction.dto';
+import { RegisterTransactionDTO } from '../../../shared/dto/create-transaction.dto';
 import { Log } from '../../../shared/utils/log';
 import { Transaction } from '../../domain/models/transaction.model';
 import { TransactionService } from '../../domain/services/transaction.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
 
 @Injectable()
-export class CreateTransactionUseCase {
+export class RegisterTransactionUseCase {
   constructor(
     private repository: TransactionRepositoryPort,
     private service: TransactionService,
   ) {}
 
-  async execute(dto: CreateTransactionDTO): Promise<Transaction> {
+  async execute(dto: RegisterTransactionDTO): Promise<Transaction> {
     Log.info(
-      'CreateTransactionUseCase',
+      'RegisterTransactionUseCase',
       `Creating new transaction for USERID ${dto.userId}`,
     );
 
@@ -29,7 +29,7 @@ export class CreateTransactionUseCase {
     const transactionCreated = await this.repository.save(transaction);
 
     Log.info(
-      'CreateTransactionUseCase',
+      'RegisterTransactionUseCase',
       `Transaction created successfully with ID ${transactionCreated.id}`,
     );
 

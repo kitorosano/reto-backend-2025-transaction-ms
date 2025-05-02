@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BudgetDTO } from '../../shared/dto/budget.dto';
-import { CreateTransactionDTO } from '../../shared/dto/create-transaction.dto';
+import { RegisterTransactionDTO } from '../../shared/dto/create-transaction.dto';
 import { GenerateMonthlyReportDTO } from '../../shared/dto/generate-monthly-report.dto';
 import { ModifyBudgetDTO } from '../../shared/dto/modify-budget.dto';
 import { MonthlyReportDTO } from '../../shared/dto/monthly-report.dto';
@@ -12,13 +12,13 @@ import { TransactionMapper } from './mappers/transaction.mapper';
 import { BudgetsServicePort } from './ports/inbounds/budgets.service.port';
 import { MonthlyReportServicePort } from './ports/inbounds/monthly-report.service.port';
 import { TransactionServicePort } from './ports/inbounds/transaction.service.port';
-import { CreateTransactionUseCase } from './usecases/create-transaction.usecase';
 import { GenerateMonthlyReportUseCase } from './usecases/generate-monthly-report.usecase';
 import { GetTransactionByIdUseCase } from './usecases/get-transaction-by-id.usecase';
 import { GetUserBudgetsUseCase } from './usecases/get-user-budgets.usecase';
 import { GetUserTransactionHistoryUseCase } from './usecases/get-user-transaction-history.usecase';
 import { ModifyBudgetUseCase } from './usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './usecases/register-budget.usecase';
+import { RegisterTransactionUseCase } from './usecases/register-transaction.usecase';
 import { RemoveBudgetFromUserUseCase } from './usecases/remove-budget-from-user.usecase';
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ApplicationService
     BudgetsServicePort
 {
   constructor(
-    private readonly createTransactionUseCase: CreateTransactionUseCase,
+    private readonly registerTransactionUseCase: RegisterTransactionUseCase,
     private readonly getTransactionByIdUseCase: GetTransactionByIdUseCase,
     private readonly getUserTransactionHistoryUseCase: GetUserTransactionHistoryUseCase,
     private readonly generateMonthlyReportUseCase: GenerateMonthlyReportUseCase,
@@ -39,8 +39,10 @@ export class ApplicationService
     private readonly removeBudgetFromUserUseCase: RemoveBudgetFromUserUseCase,
   ) {}
 
-  async createTransaction(dto: CreateTransactionDTO): Promise<TransactionDTO> {
-    const transaction = await this.createTransactionUseCase.execute(dto);
+  async registerTransaction(
+    dto: RegisterTransactionDTO,
+  ): Promise<TransactionDTO> {
+    const transaction = await this.registerTransactionUseCase.execute(dto);
     return TransactionMapper.toDTO(transaction);
   }
 

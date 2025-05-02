@@ -1,6 +1,6 @@
 import { TransactionCurrency } from './transaction.dto';
 
-export class CreateTransactionDTO {
+export class RegisterTransactionDTO {
   userId: string;
   datetime: Date;
   amount: number;
