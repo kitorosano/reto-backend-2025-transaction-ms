@@ -19,6 +19,7 @@ import { GetUserBudgetsUseCase } from './usecases/get-user-budgets.usecase';
 import { GetUserTransactionHistoryUseCase } from './usecases/get-user-transaction-history.usecase';
 import { ModifyBudgetUseCase } from './usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './usecases/register-budget.usecase';
+import { RemoveBudgetFromUserUseCase } from './usecases/remove-budget-from-user.usecase';
 
 @Injectable()
 export class ApplicationService
@@ -35,6 +36,7 @@ export class ApplicationService
     private readonly registerBudgetUseCase: RegisterBudgetUseCase,
     private readonly getUserBudgetsUseCase: GetUserBudgetsUseCase,
     private readonly modifyBudgetUseCase: ModifyBudgetUseCase,
+    private readonly removeBudgetFromUserUseCase: RemoveBudgetFromUserUseCase,
   ) {}
 
   async createTransaction(dto: CreateTransactionDTO): Promise<TransactionDTO> {
@@ -71,10 +73,15 @@ export class ApplicationService
   }
 
   async modifyUserBudget(
-    budgetId: string,
+    id: string,
     dto: ModifyBudgetDTO,
   ): Promise<BudgetDTO> {
-    const budget = await this.modifyBudgetUseCase.execute(budgetId, dto);
+    const budget = await this.modifyBudgetUseCase.execute(id, dto);
     return BudgetMapper.toDTO(budget);
+  }
+
+  async removeUserBudget(id: string, userId: string): Promise<void> {
+    await this.removeBudgetFromUserUseCase.execute(id, userId);
+    return;
   }
 }

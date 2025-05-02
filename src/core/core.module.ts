@@ -13,6 +13,7 @@ import { GetUserBudgetsUseCase } from './application/usecases/get-user-budgets.u
 import { GetUserTransactionHistoryUseCase } from './application/usecases/get-user-transaction-history.usecase';
 import { ModifyBudgetUseCase } from './application/usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './application/usecases/register-budget.usecase';
+import { RemoveBudgetFromUserUseCase } from './application/usecases/remove-budget-from-user.usecase';
 import { BudgetService } from './domain/services/budget.service';
 import { MonthlyReportService } from './domain/services/monthly-report.service';
 import { TransactionService } from './domain/services/transaction.service';
@@ -53,6 +54,7 @@ import { UuidService } from './domain/services/uuid.service';
     RegisterBudgetUseCase,
     GetUserBudgetsUseCase,
     ModifyBudgetUseCase,
+    RemoveBudgetFromUserUseCase,
   ],
 })
 export class CoreModule {

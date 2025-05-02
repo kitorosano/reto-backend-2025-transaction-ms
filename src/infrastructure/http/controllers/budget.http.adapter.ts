@@ -2,10 +2,10 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
-  Patch,
   Post,
   Put,
   UseFilters,
@@ -73,5 +73,21 @@ export class BudgetHTTPAdapter {
     const budget = await this.application.modifyUserBudget(budgetId, dto);
 
     return BudgetHTTPMapper.toResponse(budget);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async removeUserBudget(
+    @Param('id') budgetId: string,
+    @UserId() userId: string,
+  ): Promise<void> {
+    Log.info(
+      'BudgetHTTPAdapter',
+      `(DELETE) Remove budget from userId ${userId}`,
+    );
+
+    await this.application.removeUserBudget(budgetId, userId);
+
+    return;
   }
 }

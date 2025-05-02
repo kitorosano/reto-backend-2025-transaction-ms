@@ -5,4 +5,6 @@ export abstract class BudgetRepositoryPort {
   abstract findByUser(userId: string): Promise<Budget[]>;
   
   abstract update(budget: Budget): Promise<Budget | null>;
+
+  abstract delete(id: string, userId: string): Promise<Budget | null>;
 }
