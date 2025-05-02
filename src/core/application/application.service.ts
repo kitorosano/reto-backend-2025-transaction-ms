@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BudgetDTO } from '../../common/dto/budget.dto';
 import { CreateTransactionDTO } from '../../common/dto/create-transaction.dto';
 import { GenerateMonthlyReportDTO } from '../../common/dto/generate-monthly-report.dto';
+import { ModifyBudgetDTO } from '../../common/dto/modify-budget.dto';
 import { MonthlyReportDTO } from '../../common/dto/monthly-report.dto';
 import { RegisterBudgetDTO } from '../../common/dto/register-budget.dto';
 import { TransactionDTO } from '../../common/dto/transaction.dto';
@@ -16,6 +17,7 @@ import { GenerateMonthlyReportUseCase } from './usecases/generate-monthly-report
 import { GetTransactionByIdUseCase } from './usecases/get-transaction-by-id.usecase';
 import { GetUserBudgetsUseCase } from './usecases/get-user-budgets.usecase';
 import { GetUserTransactionHistoryUseCase } from './usecases/get-user-transaction-history.usecase';
+import { ModifyBudgetUseCase } from './usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './usecases/register-budget.usecase';
 
 @Injectable()
@@ -32,6 +34,7 @@ export class ApplicationService
     private readonly generateMonthlyReportUseCase: GenerateMonthlyReportUseCase,
     private readonly registerBudgetUseCase: RegisterBudgetUseCase,
     private readonly getUserBudgetsUseCase: GetUserBudgetsUseCase,
+    private readonly modifyBudgetUseCase: ModifyBudgetUseCase,
   ) {}
 
   async createTransaction(dto: CreateTransactionDTO): Promise<TransactionDTO> {
@@ -65,5 +68,13 @@ export class ApplicationService
   async getUserBudgets(userId: string): Promise<BudgetDTO[]> {
     const budgets = await this.getUserBudgetsUseCase.execute(userId);
     return budgets.map(BudgetMapper.toDTO);
+  }
+
+  async modifyUserBudget(
+    budgetId: string,
+    dto: ModifyBudgetDTO,
+  ): Promise<BudgetDTO> {
+    const budget = await this.modifyBudgetUseCase.execute(budgetId, dto);
+    return BudgetMapper.toDTO(budget);
   }
 }

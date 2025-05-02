@@ -12,6 +12,12 @@ interface CreateBudget {
   category: string;
 }
 
+interface ModifyBudget extends Partial<CreateBudget> {
+  id: string;
+  userId: string;
+  isActive?: boolean;
+}
+
 @Injectable()
 export class BudgetService {
   private readonly DEFAULT_IS_ACTIVE: boolean = false;
@@ -33,6 +39,34 @@ export class BudgetService {
     if (this.validateCategory(category)) budget.setCategory(category);
 
     budget.setIsActive(this.DEFAULT_IS_ACTIVE);
+
+    return budget;
+  }
+
+  modify({
+    id,
+    userId,
+    amount,
+    currency,
+    category,
+    isActive,
+  }: ModifyBudget): Budget {
+    const budget = new Budget();
+
+    if (this.validateId(id)) budget.setId(id);
+
+    if (this.validateUserId(userId)) budget.setUserId(userId);
+
+    if (amount && this.validateAmount(amount)) budget.setAmount(amount);
+
+    if (currency && this.validateCurrency(currency))
+      budget.setCurrency(currency);
+
+    if (category && this.validateCategory(category))
+      budget.setCategory(category);
+
+    if (isActive && this.validateIsActive(isActive))
+      budget.setIsActive(isActive);
 
     return budget;
   }
@@ -76,5 +110,13 @@ export class BudgetService {
     if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.REQUEST_NOT_VALID); // TODO: create a specific error code for category validation
+  }
+
+  private validateIsActive(isActive: boolean): boolean {
+    const isValid = true;
+
+    if (isValid) return true;
+
+    throw new BadModelException(ErrorCodesKeys.REQUEST_NOT_VALID); // TODO: create a specific error code for isActive validation
   }
 }

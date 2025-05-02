@@ -48,4 +48,24 @@ export class BudgetMongoDBAdapter implements BudgetRepositoryPort {
       );
     }
   }
+
+  async update(budget: Budget): Promise<Budget | null> {
+    // Remove the id and userId from the budget object to avoid updating them in the database
+    const { id, userId, ...budgetToUpdate } = budget; 
+
+    try {
+      const entity = await this.budgetEntity
+        .findOneAndUpdate({ id }, budgetToUpdate, { new: true })
+        .exec();
+
+      if (!entity) return null;
+
+      return BudgetMongoDBMapper.toModel(entity);
+    } catch (error) {
+      throw new UnexpectedException(
+        ErrorCodesKeys.REPOSITORY_UNEXPECTED,
+        error,
+      );
+    }
+  }
 }

@@ -11,6 +11,7 @@ import { GenerateMonthlyReportUseCase } from './application/usecases/generate-mo
 import { GetTransactionByIdUseCase } from './application/usecases/get-transaction-by-id.usecase';
 import { GetUserBudgetsUseCase } from './application/usecases/get-user-budgets.usecase';
 import { GetUserTransactionHistoryUseCase } from './application/usecases/get-user-transaction-history.usecase';
+import { ModifyBudgetUseCase } from './application/usecases/modify-budget.usecase';
 import { RegisterBudgetUseCase } from './application/usecases/register-budget.usecase';
 import { BudgetService } from './domain/services/budget.service';
 import { MonthlyReportService } from './domain/services/monthly-report.service';
@@ -29,7 +30,7 @@ import { UuidService } from './domain/services/uuid.service';
     MonthlyReportService,
     BudgetService,
     UuidService,
-    
+
     // Inbound Ports
     {
       provide: TransactionServicePort,
@@ -51,6 +52,7 @@ import { UuidService } from './domain/services/uuid.service';
     GenerateMonthlyReportUseCase,
     RegisterBudgetUseCase,
     GetUserBudgetsUseCase,
+    ModifyBudgetUseCase,
   ],
 })
 export class CoreModule {

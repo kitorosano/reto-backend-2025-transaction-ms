@@ -4,7 +4,10 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
+  Patch,
   Post,
+  Put,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -18,11 +21,12 @@ import { AuthGuard } from '../common/guards/auth.guard';
 import { RequestValidationPipe } from '../common/pipes/requests-validation.pipe';
 import { BudgetHTTPMapper } from '../mappers/budget.http.mapper';
 import { BudgetHTTPResponse } from '../models/budget.http.response';
+import { ModifyBudgetHTTPRequest } from '../models/modify-budget.http.request';
 import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.request';
 
 @Controller('budgets')
 @UseFilters(CustomExceptionFilter)
-@UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassSerializerInterceptor) // TODO: Check if this is needed
 @UsePipes(RequestValidationPipe)
 @UseGuards(AuthGuard)
 export class BudgetHTTPAdapter {
@@ -36,7 +40,7 @@ export class BudgetHTTPAdapter {
   ): Promise<BudgetHTTPResponse> {
     Log.info('ReportHTTPAdapter', `(GET) Register budget for userId ${userId}`);
 
-    const dto = BudgetHTTPMapper.toDTO(request, userId);
+    const dto = BudgetHTTPMapper.toRegisterDTO(request, userId);
 
     const budget = await this.application.registerBudget(dto);
 
@@ -53,5 +57,21 @@ export class BudgetHTTPAdapter {
     const budgets = await this.application.getUserBudgets(userId);
 
     return budgets.map((budget) => BudgetHTTPMapper.toResponse(budget));
+  }
+
+  @Put(':id')
+  @HttpCode(200)
+  async modifyUserBudget(
+    @Body() request: ModifyBudgetHTTPRequest,
+    @Param('id') budgetId: string,
+    @UserId() userId: string,
+  ): Promise<BudgetHTTPResponse> {
+    Log.info('BudgetHTTPAdapter', `(PUT) Modify budget for userId ${userId}`);
+
+    const dto = BudgetHTTPMapper.toModifyDTO(request, userId);
+
+    const budget = await this.application.modifyUserBudget(budgetId, dto);
+
+    return BudgetHTTPMapper.toResponse(budget);
   }
 }

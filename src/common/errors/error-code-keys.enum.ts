@@ -17,4 +17,6 @@ export enum ErrorCodesKeys {
   REQUEST_NOT_VALID = 'TST024',
 
   TRANSACTION_NOT_FOUND = 'TST030',
+  BUDGET_NOT_FOUND = 'TST031',
+  
 }

@@ -38,6 +38,10 @@ export const EsDictionary = {
       message: 'Transacción no encontrada',
       detail: 'No se encontró la transacción con el ID proporcionado',
     },
+    [ErrorCodesKeys.BUDGET_NOT_FOUND]: {
+      message: 'Presupuesto no encontrado',
+      detail: 'No se encontró el presupuesto con el ID proporcionado',
+    },
   },
   [ExceptionTypeKeys.INVALID_PERMISSIONS]: {},
 };

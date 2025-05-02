@@ -1,10 +1,12 @@
 import { BudgetDTO } from '../../../common/dto/budget.dto';
+import { ModifyBudgetDTO } from '../../../common/dto/modify-budget.dto';
 import { RegisterBudgetDTO } from '../../../common/dto/register-budget.dto';
 import { BudgetHTTPResponse } from '../models/budget.http.response';
+import { ModifyBudgetHTTPRequest } from '../models/modify-budget.http.request';
 import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.request';
 
 export class BudgetHTTPMapper {
-  static toDTO(
+  static toRegisterDTO(
     request: RegisterBudgetHTTPRequest,
     userId: string,
   ): RegisterBudgetDTO {
@@ -17,6 +19,22 @@ export class BudgetHTTPMapper {
 
     return dto;
   }
+
+  static toModifyDTO(
+    request: ModifyBudgetHTTPRequest,
+    userId: string,
+  ): ModifyBudgetDTO {
+    const dto = new ModifyBudgetDTO();
+
+    dto.userId = userId;
+    dto.amount = request.amount;
+    dto.currency = request.currency;
+    dto.category = request.category;
+    dto.isActive = request.isActive;
+
+    return dto;
+  }
+
   static toResponse(dto: BudgetDTO): BudgetHTTPResponse {
     const response = new BudgetHTTPResponse();
 
