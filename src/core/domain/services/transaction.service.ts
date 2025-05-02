@@ -53,10 +53,10 @@ export class TransactionService {
     return transaction;
   }
 
-  validateId(id: string): string {
+  validateId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return id;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
   }
@@ -64,7 +64,7 @@ export class TransactionService {
   validateUserId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return true;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: maybe this should be a 401 error instead of a 400 error
   }
@@ -103,9 +103,7 @@ export class TransactionService {
   }
 
   private validateDescription(description: string): boolean {
-    const isValid =
-      description.length >= 0 &&
-      description.length <= this.MAX_DESCRIPTION_LENGTH;
+    const isValid = description.length <= this.MAX_DESCRIPTION_LENGTH;
 
     if (isValid) return true;
 

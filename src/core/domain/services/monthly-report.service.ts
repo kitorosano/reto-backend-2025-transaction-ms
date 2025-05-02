@@ -16,6 +16,7 @@ interface CreateMonthlyReport {
 @Injectable()
 export class MonthlyReportService {
   private readonly MAX_CATEGORY_LENGTH = 20;
+  private readonly DEFAULT_MOST_SPENT_CATEGORY: string = '';
 
   constructor(private readonly uuidService: UuidService) {}
 
@@ -56,7 +57,7 @@ export class MonthlyReportService {
   validateId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return true;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
   }
@@ -64,7 +65,7 @@ export class MonthlyReportService {
   validateUserId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return true;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
   }
@@ -74,15 +75,17 @@ export class MonthlyReportService {
   }
 
   private calculateMostSpentCategory(categoryCount: Record<string, number>) {
-    const mostSpentCategoryRecord = Object.entries(categoryCount).reduce(
-      (prev, current) => {
-        if (prev[1] > current[1]) {
-          return prev;
-        } else {
-          return current;
-        }
-      },
-    );
+    const spentCategories = Object.entries(categoryCount);
+
+    if (spentCategories.length === 0) return this.DEFAULT_MOST_SPENT_CATEGORY;
+
+    const mostSpentCategoryRecord = spentCategories.reduce((prev, current) => {
+      if (prev[1] > current[1]) {
+        return prev;
+      } else {
+        return current;
+      }
+    });
 
     return mostSpentCategoryRecord[0];
   }
@@ -113,8 +116,7 @@ export class MonthlyReportService {
   }
 
   private validateMostSpentCategory(category: string): boolean {
-    const isValid =
-      category.length > 0 && category.length <= this.MAX_CATEGORY_LENGTH;
+    const isValid = category.length <= this.MAX_CATEGORY_LENGTH;
 
     if (isValid) return true;
 

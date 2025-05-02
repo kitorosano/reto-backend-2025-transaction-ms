@@ -1,10 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ collection: 'budgets' })
 export class BudgetMongoDBEntity {
-  // @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    type: MongooseSchema.Types.UUID,
+    index: true,
+    searchIndex: true,
+  })
+  id: string;
+
+  @Prop({
+    required: true,
+    type: MongooseSchema.Types.UUID,
+    index: true,
+    searchIndex: true,
+  })
   userId: string;
 
   @Prop({ required: true })

@@ -40,7 +40,7 @@ export class BudgetService {
   validateId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return true;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.ID_FORMAT_NOT_VALID);
   }
@@ -48,7 +48,7 @@ export class BudgetService {
   validateUserId(id: string): boolean {
     const isValid = this.uuidService.validate(id);
 
-    if (!isValid) return true;
+    if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
   }

@@ -1,8 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
 
 @Schema({ collection: 'transactions' })
 export class TransactionMongoDBEntity {
+  @Prop({
+    required: true,
+    type: MongooseSchema.Types.UUID,
+    index: true,
+    searchIndex: true,
+  })
+  id: string;
+
+  @Prop({
+    required: true,
+    type: MongooseSchema.Types.UUID,
+    index: true,
+    searchIndex: true,
+  })
+  userId: string;
+
   @Prop({ required: true })
   category: string;
 
@@ -17,10 +33,6 @@ export class TransactionMongoDBEntity {
 
   @Prop({ required: true })
   datetime: Date;
-
-  // @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  @Prop({ required: true })
-  userId: string;
 }
 
 export type TransactionMongoDBDocument =
@@ -28,11 +40,12 @@ export type TransactionMongoDBDocument =
 
 export const TransactionSchema = SchemaFactory.createForClass(
   TransactionMongoDBEntity,
-).set('toJSON', {
-  transform: (doc, ret) => {
-    ret.id = ret._id.toString();
-    delete ret._id;
-    delete ret.__v;
-    return ret;
-  },
-});
+);
+// .set('toJSON', {
+//   transform: (doc, ret) => {
+//     ret.id = ret._id.toString();
+//     delete ret._id;
+//     delete ret.__v;
+//     return ret;
+//   },
+// });

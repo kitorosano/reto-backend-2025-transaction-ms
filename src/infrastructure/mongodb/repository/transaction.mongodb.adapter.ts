@@ -33,7 +33,7 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
 
   async findById(id: string): Promise<Transaction | null> {
     try {
-      const entity = await this.transactionEntity.findById(id).exec();
+      const entity = await this.transactionEntity.findOne({ id }).exec();
 
       if (!entity) return null;
 
