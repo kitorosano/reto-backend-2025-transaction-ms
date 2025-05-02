@@ -6,6 +6,7 @@ const DEFAULT_MOST_SPENT_CATEGORY = 'uncategorized';
 @Injectable()
 export class MonthlyReportFactory {
   create(
+    userId: string,
     year: number,
     month: number,
     totalIncome: number,
@@ -13,6 +14,7 @@ export class MonthlyReportFactory {
     categoryCount: Record<string, number>,
   ): MonthlyReport {
     const monthlyReport = new MonthlyReport();
+    monthlyReport.setUserId(userId);
     monthlyReport.setYear(year);
     monthlyReport.setMonth(month);
     monthlyReport.setTotalIncome(totalIncome);

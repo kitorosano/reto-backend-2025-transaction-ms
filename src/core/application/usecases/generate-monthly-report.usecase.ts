@@ -23,6 +23,8 @@ export class GenerateMonthlyReportUseCase {
     const endDate = new Date(year, month, 0); // Last day of the month
     endDate.setHours(23, 59, 59, 999); // Set to the end of the day
 
+    // TODO: Create UUID first and then validate if duplicate transaction exists before creating
+
     const transactions = await this.repository.findByUserAndDateRange(
       userId,
       startDate,
@@ -52,7 +54,7 @@ export class GenerateMonthlyReportUseCase {
       }
     });
 
-    const monthlyReport = this.factory.create(year, month, totalIncome, totalExpense, categoryCount);
+    const monthlyReport = this.factory.create(userId, year, month, totalIncome, totalExpense, categoryCount);
 
     Log.info(
       'GenerateMonthlyReportUseCase',

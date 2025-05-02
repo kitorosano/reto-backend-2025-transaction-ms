@@ -58,7 +58,7 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: check if this is necessary after validating the userId in the application layer
       }
       throw new UnexpectedException(
         ErrorCodesKeys.REPOSITORY_UNEXPECTED,
@@ -83,7 +83,7 @@ export class TransactionMongoDBAdapter implements TransactionRepositoryPort {
       return entities.map((entity) => TransactionMongoDBMapper.toModel(entity));
     } catch (error) {
       if (error instanceof Error.CastError) {
-        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
+        throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID); // TODO: check if this is necessary after validating the userId in the application layer
       }
       throw new UnexpectedException(
         ErrorCodesKeys.REPOSITORY_UNEXPECTED,

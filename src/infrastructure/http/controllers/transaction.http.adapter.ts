@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
@@ -7,10 +8,12 @@ import {
   Post,
   UseFilters,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Log } from '../../../common/log';
 import { TransactionServicePort } from '../../../core/application/ports/inbounds/transaction.service.port';
+import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { RequestValidationPipe } from '../common/pipes/requests-validation.pipe';
@@ -20,6 +23,7 @@ import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 @Controller('transactions')
 @UseFilters(CustomExceptionFilter)
+@UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(RequestValidationPipe)
 @UseGuards(AuthGuard)
 export class TransactionHTTPAdapter {
@@ -29,8 +33,8 @@ export class TransactionHTTPAdapter {
   @HttpCode(201)
   async registerTransaction(
     @Body() request: RegisterTransactionHTTPRequest,
+    @UserId() userId: string,
   ): Promise<TransactionHTTPResponse> {
-    const userId = '1'; // TODO: This should be replaced with actual user ID from request context or token
     Log.info(
       'TransactionHTTPAdapter',
       `(POST) Register New Transaction by USERID ${userId}`,
@@ -46,8 +50,9 @@ export class TransactionHTTPAdapter {
 
   @Get()
   @HttpCode(200)
-  async getUserTransactions(): Promise<TransactionHTTPResponse[]> {
-    const userId = '1'; // TODO: This should be replaced with actual user ID from request context or token
+  async getUserTransactions(
+    @UserId() userId: string,
+  ): Promise<TransactionHTTPResponse[]> {
     Log.info(
       'TransactionHTTPAdapter',
       `(GET) Get Transactions by USERID ${userId}`,

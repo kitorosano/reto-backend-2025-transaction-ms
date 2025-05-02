@@ -5,12 +5,15 @@ import {
   HttpCode,
   Param,
   UseFilters,
+  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { Log } from '../../../common/log';
 import { GenerateMonthlyReportUseCase } from '../../../core/application/usecases/generate-monthly-report.usecase';
+import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
+import { AuthGuard } from '../common/guards/auth.guard';
 import { RequestValidationPipe } from '../common/pipes/requests-validation.pipe';
 import { MonthlyReportHTTPMapper } from '../mappers/monthly-report.http.mapper';
 import { GenerateMonthlyReportHTTPRequest } from '../models/generate-monthly-report.http.request';
@@ -20,6 +23,7 @@ import { MonthlyReportHTTPResponse } from '../models/monthly-report.http.respons
 @UseFilters(CustomExceptionFilter)
 @UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(RequestValidationPipe)
+@UseGuards(AuthGuard)
 export class MonthlyReportHTTPAdapter {
   constructor(
     private generateMonthlyReportUseCase: GenerateMonthlyReportUseCase,
@@ -29,8 +33,8 @@ export class MonthlyReportHTTPAdapter {
   @HttpCode(200)
   async generateMonthlyReport(
     @Param() params: GenerateMonthlyReportHTTPRequest,
+    @UserId() userId: string,
   ): Promise<MonthlyReportHTTPResponse> {
-    const userId = '1'; // TODO: This should be replaced with actual user ID from request context or token
     Log.info(
       'ReportHTTPAdapter',
       `(GET) Generate monthly report for userId ${userId}`,
