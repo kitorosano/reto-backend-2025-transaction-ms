@@ -1,5 +1,3 @@
-import { ExceptionTypeKeys } from '../error-code-keys.enum';
-
 export class CustomException extends Error {
   key: string;
   error: string;
@@ -14,7 +12,7 @@ export class CustomException extends Error {
    */
   constructor(key: string, name: string, error?: any) {
     super(name, { cause: error });
-    this.name = ExceptionTypeKeys.UNEXPECTED;
+    this.name = name;
     this.key = key;
     this.generateTraceId();
     this.generateTimestamp();
