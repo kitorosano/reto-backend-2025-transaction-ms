@@ -1,5 +1,4 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,7 +16,7 @@ export class AuthGuard implements CanActivate {
     // If the user ID is not valid UUID, we should throw a UnauthorizedException
 
     // For now, we will just simulate a user ID from the request context
-    request['user'] = randomUUID();
+    request['user'] = '4e564d19-edb5-4bc2-ad13-de40cbf12ed5';
 
     return true;
   }
