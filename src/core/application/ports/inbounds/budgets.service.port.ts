@@ -1,6 +1,6 @@
-import { BudgetDTO } from '../../../../common/dto/budget.dto';
-import { ModifyBudgetDTO } from '../../../../common/dto/modify-budget.dto';
-import { RegisterBudgetDTO } from '../../../../common/dto/register-budget.dto';
+import { BudgetDTO } from '../../../../shared/dto/budget.dto';
+import { ModifyBudgetDTO } from '../../../../shared/dto/modify-budget.dto';
+import { RegisterBudgetDTO } from '../../../../shared/dto/register-budget.dto';
 
 export abstract class BudgetsServicePort {
   abstract registerBudget(budget: RegisterBudgetDTO): Promise<BudgetDTO>;

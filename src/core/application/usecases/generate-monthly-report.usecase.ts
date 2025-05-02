@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { GenerateMonthlyReportDTO } from '../../../common/dto/generate-monthly-report.dto';
-import { Log } from '../../../common/log';
+import { GenerateMonthlyReportDTO } from '../../../shared/dto/generate-monthly-report.dto';
+import { Log } from '../../../shared/utils/log';
 import { MonthlyReport } from '../../domain/models/monthly-report.model';
 import { MonthlyReportService } from '../../domain/services/monthly-report.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';

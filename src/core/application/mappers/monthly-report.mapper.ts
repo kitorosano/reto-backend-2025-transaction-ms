@@ -1,4 +1,4 @@
-import { MonthlyReportDTO } from '../../../common/dto/monthly-report.dto';
+import { MonthlyReportDTO } from '../../../shared/dto/monthly-report.dto';
 import { MonthlyReport } from '../../domain/models/monthly-report.model';
 
 export class MonthlyReportMapper {

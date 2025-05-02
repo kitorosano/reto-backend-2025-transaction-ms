@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
-import { Log } from '../../../common/log';
+import { CreateTransactionDTO } from '../../../shared/dto/create-transaction.dto';
+import { Log } from '../../../shared/utils/log';
 import { Transaction } from '../../domain/models/transaction.model';
 import { TransactionService } from '../../domain/services/transaction.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';

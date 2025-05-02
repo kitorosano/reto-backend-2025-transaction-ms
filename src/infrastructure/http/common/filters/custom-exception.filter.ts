@@ -5,12 +5,12 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { AvailableLanguages } from '../../../../common/errors/error-dictionary';
-import { BadModelException } from '../../../../common/errors/exceptions/bad-model.exception';
-import { CustomException } from '../../../../common/errors/exceptions/custom.exception';
-import { InvalidPermissionsException } from '../../../../common/errors/exceptions/invalid-permissions.exception';
-import { NotFoundException } from '../../../../common/errors/exceptions/not-found.exception';
-import { Log } from '../../../../common/log';
+import { AvailableLanguages } from '../../../../shared/errors/error-dictionary';
+import { BadModelException } from '../../../../shared/errors/exceptions/bad-model.exception';
+import { CustomException } from '../../../../shared/errors/exceptions/custom.exception';
+import { InvalidPermissionsException } from '../../../../shared/errors/exceptions/invalid-permissions.exception';
+import { NotFoundException } from '../../../../shared/errors/exceptions/not-found.exception';
+import { Log } from '../../../../shared/utils/log';
 import { ErrorHTTPMapper } from '../../mappers/error.http.mapper';
 
 @Catch(CustomException)

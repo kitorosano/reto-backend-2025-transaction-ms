@@ -1,4 +1,4 @@
-import { BudgetDTO } from '../../../common/dto/budget.dto';
+import { BudgetDTO } from '../../../shared/dto/budget.dto';
 import { Budget } from '../../domain/models/budget.model';
 
 export class BudgetMapper {

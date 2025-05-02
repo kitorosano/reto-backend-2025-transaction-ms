@@ -1,6 +1,6 @@
-import { BudgetDTO } from '../../../common/dto/budget.dto';
-import { ModifyBudgetDTO } from '../../../common/dto/modify-budget.dto';
-import { RegisterBudgetDTO } from '../../../common/dto/register-budget.dto';
+import { BudgetDTO } from '../../../shared/dto/budget.dto';
+import { ModifyBudgetDTO } from '../../../shared/dto/modify-budget.dto';
+import { RegisterBudgetDTO } from '../../../shared/dto/register-budget.dto';
 import { BudgetHTTPResponse } from '../models/budget.http.response';
 import { ModifyBudgetHTTPRequest } from '../models/modify-budget.http.request';
 import { RegisterBudgetHTTPRequest } from '../models/register-budget.http.request';

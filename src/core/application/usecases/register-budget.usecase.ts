@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { RegisterBudgetDTO } from '../../../common/dto/register-budget.dto';
-import { Log } from '../../../common/log';
+import { RegisterBudgetDTO } from '../../../shared/dto/register-budget.dto';
+import { Log } from '../../../shared/utils/log';
 import { Budget } from '../../domain/models/budget.model';
 import { BudgetService } from '../../domain/services/budget.service';
 import { BudgetRepositoryPort } from '../ports/outbounds/budget.repository.port';

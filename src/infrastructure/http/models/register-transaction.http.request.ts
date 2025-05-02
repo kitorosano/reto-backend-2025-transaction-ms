@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { TransactionCurrency } from '../../../common/dto/transaction.dto';
+import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
 
 export class RegisterTransactionHTTPRequest {
   @IsDateString()

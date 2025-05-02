@@ -1,5 +1,5 @@
-import { CreateTransactionDTO } from '../../../../common/dto/create-transaction.dto';
-import { TransactionDTO } from '../../../../common/dto/transaction.dto';
+import { CreateTransactionDTO } from '../../../../shared/dto/create-transaction.dto';
+import { TransactionDTO } from '../../../../shared/dto/transaction.dto';
 
 export abstract class TransactionServicePort {
   abstract createTransaction(

@@ -1,13 +1,16 @@
-import { CreateTransactionDTO } from '../../../common/dto/create-transaction.dto';
+import { CreateTransactionDTO } from '../../../shared/dto/create-transaction.dto';
 import {
   TransactionCurrency,
   TransactionDTO,
-} from '../../../common/dto/transaction.dto';
+} from '../../../shared/dto/transaction.dto';
 import { RegisterTransactionHTTPRequest } from '../models/register-transaction.http.request';
 import { TransactionHTTPResponse } from '../models/transaction.http.response';
 
 export class TransactionHTTPMapper {
-  static toDTO(request: RegisterTransactionHTTPRequest, userId: string): CreateTransactionDTO {
+  static toDTO(
+    request: RegisterTransactionHTTPRequest,
+    userId: string,
+  ): CreateTransactionDTO {
     const dto = new CreateTransactionDTO();
 
     dto.category = request.category;

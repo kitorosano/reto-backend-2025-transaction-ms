@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionCurrency } from '../../../common/dto/transaction.dto';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { BadModelException } from '../../../common/errors/exceptions/bad-model.exception';
+import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { BadModelException } from '../../../shared/errors/exceptions/bad-model.exception';
 import { Budget } from '../models/budget.model';
 import { UuidService } from './uuid.service';
 

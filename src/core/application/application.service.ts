@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { BudgetDTO } from '../../common/dto/budget.dto';
-import { CreateTransactionDTO } from '../../common/dto/create-transaction.dto';
-import { GenerateMonthlyReportDTO } from '../../common/dto/generate-monthly-report.dto';
-import { ModifyBudgetDTO } from '../../common/dto/modify-budget.dto';
-import { MonthlyReportDTO } from '../../common/dto/monthly-report.dto';
-import { RegisterBudgetDTO } from '../../common/dto/register-budget.dto';
-import { TransactionDTO } from '../../common/dto/transaction.dto';
+import { BudgetDTO } from '../../shared/dto/budget.dto';
+import { CreateTransactionDTO } from '../../shared/dto/create-transaction.dto';
+import { GenerateMonthlyReportDTO } from '../../shared/dto/generate-monthly-report.dto';
+import { ModifyBudgetDTO } from '../../shared/dto/modify-budget.dto';
+import { MonthlyReportDTO } from '../../shared/dto/monthly-report.dto';
+import { RegisterBudgetDTO } from '../../shared/dto/register-budget.dto';
+import { TransactionDTO } from '../../shared/dto/transaction.dto';
 import { BudgetMapper } from './mappers/budget.mapper';
 import { MonthlyReportMapper } from './mappers/monthly-report.mapper';
 import { TransactionMapper } from './mappers/transaction.mapper';
@@ -72,10 +72,7 @@ export class ApplicationService
     return budgets.map(BudgetMapper.toDTO);
   }
 
-  async modifyUserBudget(
-    id: string,
-    dto: ModifyBudgetDTO,
-  ): Promise<BudgetDTO> {
+  async modifyUserBudget(id: string, dto: ModifyBudgetDTO): Promise<BudgetDTO> {
     const budget = await this.modifyBudgetUseCase.execute(id, dto);
     return BudgetMapper.toDTO(budget);
   }

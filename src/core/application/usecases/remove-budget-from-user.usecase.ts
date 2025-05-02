@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ModifyBudgetDTO } from '../../../common/dto/modify-budget.dto';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { NotFoundException } from '../../../common/errors/exceptions/not-found.exception';
-import { Log } from '../../../common/log';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { NotFoundException } from '../../../shared/errors/exceptions/not-found.exception';
+import { Log } from '../../../shared/utils/log';
 import { Budget } from '../../domain/models/budget.model';
 import { BudgetService } from '../../domain/services/budget.service';
 import { BudgetRepositoryPort } from '../ports/outbounds/budget.repository.port';
@@ -19,14 +18,17 @@ export class RemoveBudgetFromUserUseCase {
       'RemoveBudgetFromUserUseCase',
       `Removing budget with ID ${id} from USERID ${userId}`,
     );
-    
+
     this.service.validateId(id);
     this.service.validateUserId(userId);
 
     const budgetRemoved = await this.repository.delete(id, userId);
 
     if (!budgetRemoved) {
-      Log.error('RemoveBudgetFromUserUseCase', `Budget with ID ${id} not found`);
+      Log.error(
+        'RemoveBudgetFromUserUseCase',
+        `Budget with ID ${id} not found`,
+      );
       throw new NotFoundException(ErrorCodesKeys.BUDGET_NOT_FOUND);
     }
 

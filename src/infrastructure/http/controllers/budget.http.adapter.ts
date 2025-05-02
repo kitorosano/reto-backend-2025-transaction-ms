@@ -13,8 +13,8 @@ import {
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
-import { Log } from '../../../common/log';
 import { BudgetsServicePort } from '../../../core/application/ports/inbounds/budgets.service.port';
+import { Log } from '../../../shared/utils/log';
 import { UserId } from '../common/decorators/user-id.decorator';
 import { CustomExceptionFilter } from '../common/filters/custom-exception.filter';
 import { AuthGuard } from '../common/guards/auth.guard';

@@ -1,5 +1,5 @@
-import { TransactionCurrency } from '../../../common/dto/transaction.dto';
 import { Budget } from '../../../core/domain/models/budget.model';
+import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
 import { BudgetMongoDBDocument } from '../entities/budget.mongodb.entity';
 
 export class BudgetMongoDBMapper {

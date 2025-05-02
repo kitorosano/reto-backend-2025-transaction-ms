@@ -1,12 +1,12 @@
 import {
   ErrorCodesKeys,
   ExceptionTypeKeys,
-} from '../../../common/errors/error-code-keys.enum';
+} from '../../../shared/errors/error-code-keys.enum';
 import {
   AvailableLanguages,
   ErrorDictionary,
-} from '../../../common/errors/error-dictionary';
-import { CustomException } from '../../../common/errors/exceptions/custom.exception';
+} from '../../../shared/errors/error-dictionary';
+import { CustomException } from '../../../shared/errors/exceptions/custom.exception';
 import { ErrorHTTPResponse } from '../models/error.response';
 
 export class ErrorHTTPMapper {

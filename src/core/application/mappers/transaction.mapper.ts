@@ -1,4 +1,4 @@
-import { TransactionDTO } from '../../../common/dto/transaction.dto';
+import { TransactionDTO } from '../../../shared/dto/transaction.dto';
 import { Transaction } from '../../domain/models/transaction.model';
 
 export class TransactionMapper {

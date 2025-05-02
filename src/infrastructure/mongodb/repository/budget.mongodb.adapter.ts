@@ -1,10 +1,10 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Error, Model } from 'mongoose';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { BadModelException } from '../../../common/errors/exceptions/bad-model.exception';
-import { UnexpectedException } from '../../../common/errors/exceptions/unexpected.exception';
 import { BudgetRepositoryPort } from '../../../core/application/ports/outbounds/budget.repository.port';
 import { Budget } from '../../../core/domain/models/budget.model';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { BadModelException } from '../../../shared/errors/exceptions/bad-model.exception';
+import { UnexpectedException } from '../../../shared/errors/exceptions/unexpected.exception';
 import {
   BudgetMongoDBDocument,
   BudgetMongoDBEntity,

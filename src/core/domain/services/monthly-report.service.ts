@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { BadModelException } from '../../../common/errors/exceptions/bad-model.exception';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { BadModelException } from '../../../shared/errors/exceptions/bad-model.exception';
 import { MonthlyReport } from '../models/monthly-report.model';
 import { UuidService } from './uuid.service';
 

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CreateTransactionDTO } from '../../common/dto/create-transaction.dto';
-import { TransactionCurrency } from '../../common/dto/transaction.dto';
+import { CreateTransactionDTO } from '../../shared/dto/create-transaction.dto';
+import { TransactionCurrency } from '../../shared/dto/transaction.dto';
 import { ApplicationService } from './application.service';
 import { TransactionRepositoryPort } from './ports/outbounds/transaction.repository.port';
 

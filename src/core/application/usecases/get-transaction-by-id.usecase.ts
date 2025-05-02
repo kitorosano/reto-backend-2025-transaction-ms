@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { NotFoundException } from '../../../common/errors/exceptions/not-found.exception';
-import { Log } from '../../../common/log';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { NotFoundException } from '../../../shared/errors/exceptions/not-found.exception';
+import { Log } from '../../../shared/utils/log';
 import { Transaction } from '../../domain/models/transaction.model';
-import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
 import { TransactionService } from '../../domain/services/transaction.service';
+import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
 
 @Injectable()
 export class GetTransactionByIdUseCase {
-  constructor(private repository: TransactionRepositoryPort, private service: TransactionService) {}
+  constructor(
+    private repository: TransactionRepositoryPort,
+    private service: TransactionService,
+  ) {}
 
   async execute(id: string): Promise<Transaction> {
     Log.info('GetTransactionByIdUseCase', `Getting transaction with id ${id}`);

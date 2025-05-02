@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ModifyBudgetDTO } from '../../../common/dto/modify-budget.dto';
-import { ErrorCodesKeys } from '../../../common/errors/error-code-keys.enum';
-import { NotFoundException } from '../../../common/errors/exceptions/not-found.exception';
-import { Log } from '../../../common/log';
+import { ModifyBudgetDTO } from '../../../shared/dto/modify-budget.dto';
+import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
+import { NotFoundException } from '../../../shared/errors/exceptions/not-found.exception';
+import { Log } from '../../../shared/utils/log';
 import { Budget } from '../../domain/models/budget.model';
 import { BudgetService } from '../../domain/services/budget.service';
 import { BudgetRepositoryPort } from '../ports/outbounds/budget.repository.port';
