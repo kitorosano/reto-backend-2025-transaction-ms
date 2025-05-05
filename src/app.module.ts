@@ -10,8 +10,11 @@ export class AppModule {
       module: AppModule,
       imports: [
         CoreModule.withInfrastructure(
-          InfrastructureModule.use(options.driver),
-        )
+          InfrastructureModule.use(
+            options.persistenceDriver,
+            options.authDriver,
+          ),
+        ),
       ],
     };
   }

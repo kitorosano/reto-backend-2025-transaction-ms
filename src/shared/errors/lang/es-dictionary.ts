@@ -34,7 +34,13 @@ export const EsDictionary = {
     },
     [ErrorCodesKeys.AMOUNT_EXCEEDS_BUDGET]: {
       message: 'El monto excede el presupuesto',
-      detail: 'El monto de la transacción excede el presupuesto asignado para la categoría',
+      detail:
+        'El monto de la transacción excede el presupuesto asignado para la categoría',
+    },
+    [ErrorCodesKeys.AUTH_HEADER_NOT_PROVIDED]: {
+      message: 'Encabezado de autorización no proporcionado',
+      detail:
+        'El encabezado de autorización no fue proporcionado en la solicitud',
     },
   },
   [ExceptionTypeKeys.NOT_FOUND]: {
@@ -47,5 +53,14 @@ export const EsDictionary = {
       detail: 'No se encontró el presupuesto con el ID proporcionado',
     },
   },
-  [ExceptionTypeKeys.INVALID_PERMISSIONS]: {},
+  [ExceptionTypeKeys.INVALID_PERMISSIONS]: {
+    [ErrorCodesKeys.TOKEN_NOT_VALID]: {
+      message: 'Autenticación no válida',
+      detail: 'El token de acceso proporcionado no es válido o ha expirado',
+    },
+    [ErrorCodesKeys.USER_NOT_AUTHENTICATED]: {
+      message: 'Usuario no autenticado',
+      detail: 'El usuario no está autenticado',
+    },
+  },
 };

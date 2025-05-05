@@ -1,22 +1,38 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { AuthServicePort } from '../../../../core/application/ports/outbounds/auth.service.port';
+import { ErrorCodesKeys } from '../../../../shared/errors/error-code-keys.enum';
+import { BadModelException } from '../../../../shared/errors/exceptions/bad-model.exception';
+import { InvalidPermissionsException } from '../../../../shared/errors/exceptions/invalid-permissions.exception';
+import { Log } from '../../../../shared/utils/log';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor() {}
+  constructor(private readonly authService: AuthServicePort) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    Log.info('AuthGuard', 'Checking if user is authenticated...');
     const request = context.switchToHttp().getRequest();
 
-    // TODO: Implement JWT token validation from request headers
+    const authorization = request.headers['authorization'];
 
-    // If the token is valid, we can extract the user ID from it and set it in the request object
+    if (!authorization)
+      throw new BadModelException(ErrorCodesKeys.AUTH_HEADER_NOT_PROVIDED);
 
-    // If the token is invalid, we should throw an UnauthorizedException
+    const tokenWithoutBearer = authorization.replace('Bearer', '').trim();
+    if (!tokenWithoutBearer)
+      throw new InvalidPermissionsException(ErrorCodesKeys.TOKEN_NOT_VALID);
 
-    // If the user ID is not valid UUID, we should throw a UnauthorizedException
+    const decodedToken = await this.authService
+      .verifyToken(tokenWithoutBearer)
+      .catch(() => {
+        throw new InvalidPermissionsException(
+          ErrorCodesKeys.USER_NOT_AUTHENTICATED,
+        );
+      });
 
-    // For now, we will just simulate a user ID from the request context
-    request['user'] = '4e564d19-edb5-4bc2-ad13-de40cbf12ed5';
+    request['user'] = decodedToken;
+
+    Log.info('AuthGuard', `User ${decodedToken.email} is authenticated`);
 
     return true;
   }
