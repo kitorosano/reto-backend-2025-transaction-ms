@@ -1,13 +1,18 @@
 import 'dotenv/config';
 import * as joi from 'joi';
-import { ApplicationBootstrapOptions } from './bootstrap';
+import { AuthDrivers, PersistenceDrivers } from './bootstrap';
 
 interface Environment {
   NODE_ENV: string;
   PORT: number;
+
   NATS_SERVERS: string;
-  DRIVER_TYPE: string;
-  DRIVER_URI: string;
+
+  PERSISTENCE_DRIVER: string;
+  PERSISTENCE_DRIVER_URI: string;
+
+  AUTH_DRIVER: string;
+  AUTH_DRIVER_SECRET: string;
 }
 
 const environmentSchema = joi
@@ -17,9 +22,17 @@ const environmentSchema = joi
       .valid('development', 'testing', 'production')
       .default('development'),
     PORT: joi.number().required(),
+
     NATS_SERVERS: joi.array().items(joi.string()).required(),
-    DRIVER_TYPE: joi.string().valid('mongodb').required(),
-    DRIVER_URI: joi.string().required(),
+
+    PERSISTENCE_DRIVER: joi
+      .string()
+      .valid('mongodb', 'postgresql', 'mysql')
+      .required(),
+    PERSISTENCE_DRIVER_URI: joi.string().required(),
+
+    AUTH_DRIVER: joi.string().valid('jwt', 'oauth2', 'saml').required(),
+    AUTH_DRIVER_SECRET: joi.string().required(),
   })
   .unknown(true);
 
@@ -37,7 +50,12 @@ const environment: Environment = value as Environment;
 export default {
   name: environment.NODE_ENV,
   port: environment.PORT,
+
   natsServers: environment.NATS_SERVERS,
-  driverUri: environment.DRIVER_URI,
-  driver: environment.DRIVER_TYPE as ApplicationBootstrapOptions['driver'],
+
+  persistenceDriver: environment.PERSISTENCE_DRIVER as PersistenceDrivers,
+  persistenceDriverUri: environment.PERSISTENCE_DRIVER_URI,
+
+  authDriver: environment.AUTH_DRIVER as AuthDrivers,
+  authDriverSecret: environment.AUTH_DRIVER_SECRET,
 };
