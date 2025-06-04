@@ -24,7 +24,7 @@ const mockValidateId = jest.fn().mockReturnValue(true);
 const mockValidateUserId = jest.fn().mockReturnValue(true);
 
 describe('RemoveBudgetFromUserUseCase', () => {
-  let getUserBudgetsUseCase: RemoveBudgetFromUserUseCase;
+  let removeBudgetFromUserUseCase: RemoveBudgetFromUserUseCase;
   let repository: BudgetRepositoryPort;
   let service: BudgetService;
 
@@ -48,7 +48,7 @@ describe('RemoveBudgetFromUserUseCase', () => {
       ],
     }).compile();
 
-    getUserBudgetsUseCase = module.get<RemoveBudgetFromUserUseCase>(
+    removeBudgetFromUserUseCase = module.get<RemoveBudgetFromUserUseCase>(
       RemoveBudgetFromUserUseCase,
     );
     repository = module.get<BudgetRepositoryPort>(BudgetRepositoryPort);
@@ -60,13 +60,13 @@ describe('RemoveBudgetFromUserUseCase', () => {
   });
 
   it('should be defined', () => {
-    expect(getUserBudgetsUseCase).toBeDefined();
+    expect(removeBudgetFromUserUseCase).toBeDefined();
     expect(repository).toBeDefined();
     expect(service).toBeDefined();
   });
 
   it('should remove a budget from user', async () => {
-    const result = await getUserBudgetsUseCase.execute(
+    const result = await removeBudgetFromUserUseCase.execute(
       mockBudgetId,
       mockUserId,
     );
@@ -83,13 +83,11 @@ describe('RemoveBudgetFromUserUseCase', () => {
     expect(repository.delete).toHaveBeenCalledWith(mockBudgetId, mockUserId);
   });
 
-  it('should throw NotFoundException if budget does not exist', async () => {
-    mockDelete.mockRejectedValueOnce(
-      new NotFoundException(ErrorCodesKeys.BUDGET_NOT_FOUND),
-    );
+  it('should throw NotFoundException if delete returns null', async () => {
+    mockDelete.mockResolvedValueOnce(null);
 
     await expect(
-      getUserBudgetsUseCase.execute(mockBudgetId, mockUserId),
+      removeBudgetFromUserUseCase.execute(mockBudgetId, mockUserId),
     ).rejects.toThrow(NotFoundException);
   });
 
@@ -99,7 +97,7 @@ describe('RemoveBudgetFromUserUseCase', () => {
     );
 
     await expect(
-      getUserBudgetsUseCase.execute('invalid-id', mockUserId),
+      removeBudgetFromUserUseCase.execute('invalid-id', mockUserId),
     ).rejects.toThrow(BadModelException);
   });
 
@@ -109,7 +107,7 @@ describe('RemoveBudgetFromUserUseCase', () => {
     );
 
     await expect(
-      getUserBudgetsUseCase.execute(mockBudgetId, 'non-existent-user'),
+      removeBudgetFromUserUseCase.execute(mockBudgetId, 'non-existent-user'),
     ).rejects.toThrow(BadModelException);
   });
 });

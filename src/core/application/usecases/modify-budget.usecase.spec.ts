@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
-import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
 import { NotFoundException } from '../../../shared/errors/exceptions/not-found.exception';
 import { BudgetService } from '../../domain/services/budget.service';
 import { BudgetRepositoryPort } from '../ports/outbounds/budget.repository.port';
@@ -28,7 +27,7 @@ const mockUpdate = jest.fn().mockResolvedValue(mockBudgetModified);
 const mockModify = jest.fn().mockReturnValue(mockBudgetModified);
 
 describe('ModifyBudgetUseCase', () => {
-  let getUserBudgetsUseCase: ModifyBudgetUseCase;
+  let modifyBudgetUseCase: ModifyBudgetUseCase;
   let repository: BudgetRepositoryPort;
   let service: BudgetService;
 
@@ -51,8 +50,7 @@ describe('ModifyBudgetUseCase', () => {
       ],
     }).compile();
 
-    getUserBudgetsUseCase =
-      module.get<ModifyBudgetUseCase>(ModifyBudgetUseCase);
+    modifyBudgetUseCase = module.get<ModifyBudgetUseCase>(ModifyBudgetUseCase);
     repository = module.get<BudgetRepositoryPort>(BudgetRepositoryPort);
     service = module.get<BudgetService>(BudgetService);
   });
@@ -62,13 +60,13 @@ describe('ModifyBudgetUseCase', () => {
   });
 
   it('should be defined', () => {
-    expect(getUserBudgetsUseCase).toBeDefined();
+    expect(modifyBudgetUseCase).toBeDefined();
     expect(repository).toBeDefined();
     expect(service).toBeDefined();
   });
 
   it('should modify a budget and return the modified budget', async () => {
-    const result = await getUserBudgetsUseCase.execute(
+    const result = await modifyBudgetUseCase.execute(
       mockBudgetId,
       mockModifyBudgetDTO,
     );
@@ -93,13 +91,11 @@ describe('ModifyBudgetUseCase', () => {
     expect(repository.update).toHaveBeenCalledWith(mockBudgetModified);
   });
 
-  it('should throw NotFoundException if budget does not exist', async () => {
-    mockUpdate.mockRejectedValueOnce(
-      new NotFoundException(ErrorCodesKeys.BUDGET_NOT_FOUND),
-    );
+  it('should throw NotFoundException if update returns null', async () => {
+    mockUpdate.mockResolvedValueOnce(null);
 
     await expect(
-      getUserBudgetsUseCase.execute(mockBudgetId, mockModifyBudgetDTO),
+      modifyBudgetUseCase.execute(mockBudgetId, mockModifyBudgetDTO),
     ).rejects.toThrow(NotFoundException);
   });
 });

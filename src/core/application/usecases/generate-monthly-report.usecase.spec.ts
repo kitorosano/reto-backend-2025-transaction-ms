@@ -35,14 +35,23 @@ const mockTransactionIncome = {
   datetime: new Date('2025-05-01T00:00:00Z'),
   description: 'monthly bill',
 };
-const mockTransactionOutcome = {
+const mockTransactionExpense = {
   id: 'e7f85634-18f1-40bd-8265-430eebbfa48f',
   userId,
   category: 'house',
-  amount: -50,
+  amount: -30,
   currency: TransactionCurrency.USD,
   datetime: new Date('2025-05-02T00:00:00Z'),
   description: 'some expense',
+};
+const mockTransactionExpense2 = {
+  id: 'f7f85634-18f1-40bd-8265-430eebbfa48f',
+  userId,
+  category: 'house',
+  amount: -20,
+  currency: TransactionCurrency.USD,
+  datetime: new Date('2025-05-03T00:00:00Z'),
+  description: 'some other expense',
 };
 
 const mockMonthlyReport = {
@@ -51,8 +60,13 @@ const mockMonthlyReport = {
   year: mockGenerateMonthlyReportDTO.year,
   month: mockGenerateMonthlyReportDTO.month,
   totalIncome: mockTransactionIncome.amount,
-  totalExpense: mockTransactionOutcome.amount * -1,
-  difference: mockTransactionIncome.amount + mockTransactionOutcome.amount,
+  totalExpense: Math.abs(
+    mockTransactionExpense.amount + mockTransactionExpense2.amount,
+  ),
+  difference:
+    mockTransactionIncome.amount +
+    mockTransactionExpense.amount +
+    mockTransactionExpense2.amount,
   mostSpentCategory: mockTransactionIncome.category,
 };
 
@@ -61,16 +75,21 @@ const mockMonthlyReportToCreate = {
   year: mockGenerateMonthlyReportDTO.year,
   month: mockGenerateMonthlyReportDTO.month,
   totalIncome: mockTransactionIncome.amount,
-  totalExpense: mockTransactionOutcome.amount * -1,
+  totalExpense: Math.abs(
+    mockTransactionExpense.amount + mockTransactionExpense2.amount,
+  ),
   categoryCount: {
-    [mockTransactionIncome.category]: 1,
-    [mockTransactionOutcome.category]: 1,
+    [mockTransactionIncome.category]: 2,
   },
 };
 
 const mockFindByUserAndDateRange = jest
   .fn()
-  .mockResolvedValue([mockTransactionIncome, mockTransactionOutcome]);
+  .mockResolvedValue([
+    mockTransactionIncome,
+    mockTransactionExpense,
+    mockTransactionExpense2,
+  ]);
 
 const mockValidateUserId = jest.fn().mockReturnValue(true);
 const mockCreate = jest.fn().mockReturnValue(mockMonthlyReport);
