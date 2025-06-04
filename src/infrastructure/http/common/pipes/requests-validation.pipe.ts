@@ -6,10 +6,10 @@ import { Log } from '../../../../shared/utils/log';
 @Injectable()
 export class RequestValidationPipe extends ValidationPipe {
   createExceptionFactory() {
-    return (validationErrors: ValidationError[] = []) => {
-      const errors = this.flattenValidationErrors(validationErrors);
+    return (validationErrors: ValidationError[]) => {
+      // const errors = this.flattenValidationErrors(validationErrors);
 
-      Log.error('RequestValidationPipe', 'Validation failed', errors);
+      // Log.error('RequestValidationPipe', 'Validation failed', errors);
 
       // TODO: Add more detailed error handling if needed
 
