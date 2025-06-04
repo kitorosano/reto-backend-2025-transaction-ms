@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import environment from 'src/config/environment';
+import environment from '../../config/environment';
 
 export class Log {
   static info(instace: any, message: string, foo?: any): void {
