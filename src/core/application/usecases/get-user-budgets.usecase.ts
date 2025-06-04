@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Log } from 'src/shared/utils/log';
+import { Log } from '../../../shared/utils/log';
 import { Budget } from '../../domain/models/budget.model';
 import { BudgetService } from '../../domain/services/budget.service';
 import { BudgetRepositoryPort } from '../ports/outbounds/budget.repository.port';

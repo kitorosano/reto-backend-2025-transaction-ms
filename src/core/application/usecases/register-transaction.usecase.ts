@@ -28,7 +28,7 @@ export class RegisterTransactionUseCase {
       dto.category,
     );
 
-    if (budget) {
+    if (budget && budget.isActive) {
       // If the user has a budget for the transaction category
       // First, find all transactions for the user, category, and month
       const startDate = new Date(

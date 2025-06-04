@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Log } from 'src/shared/utils/log';
+import { Log } from '../../../shared/utils/log';
 import { Transaction } from '../../domain/models/transaction.model';
 import { TransactionService } from '../../domain/services/transaction.service';
 import { TransactionRepositoryPort } from '../ports/outbounds/transaction.repository.port';
