@@ -22,6 +22,8 @@ interface ModifyBudget extends Partial<CreateBudget> {
 export class BudgetService {
   private readonly DEFAULT_IS_ACTIVE: boolean = false;
   private readonly MAX_CATEGORY_LENGTH = 20;
+  private readonly MIN_ABSOLUTE_AMOUNT = 0.01;
+  private readonly MAX_ABSOLUTE_AMOUNT = 1_000_000;
 
   constructor(private readonly uuidService: UuidService) {}
 
@@ -65,8 +67,7 @@ export class BudgetService {
     if (category && this.validateCategory(category))
       budget.setCategory(category);
 
-    if (isActive && this.validateIsActive(isActive))
-      budget.setIsActive(isActive);
+    if (isActive) budget.setIsActive(isActive);
 
     return budget;
   }
@@ -87,8 +88,12 @@ export class BudgetService {
     throw new BadModelException(ErrorCodesKeys.USER_ID_FORMAT_NOT_VALID);
   }
 
-  private validateAmount(totalIncome: number): boolean {
-    const isValid = !isNaN(totalIncome);
+  private validateAmount(amount: number): boolean {
+    const isValid =
+      !isNaN(amount) &&
+      Math.abs(amount) >= this.MIN_ABSOLUTE_AMOUNT &&
+      Math.abs(amount) <= this.MAX_ABSOLUTE_AMOUNT &&
+      Number.isFinite(amount);
 
     if (isValid) return true;
 
@@ -110,13 +115,5 @@ export class BudgetService {
     if (isValid) return true;
 
     throw new BadModelException(ErrorCodesKeys.REQUEST_NOT_VALID); // TODO: create a specific error code for category validation
-  }
-
-  private validateIsActive(isActive: boolean): boolean {
-    const isValid = true;
-
-    if (isValid) return true;
-
-    throw new BadModelException(ErrorCodesKeys.REQUEST_NOT_VALID); // TODO: create a specific error code for isActive validation
   }
 }

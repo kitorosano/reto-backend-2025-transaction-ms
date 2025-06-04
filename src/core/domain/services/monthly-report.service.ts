@@ -107,8 +107,8 @@ export class MonthlyReportService {
     throw new BadModelException(ErrorCodesKeys.REQUEST_NOT_VALID); // TODO: create a specific error code for month validation
   }
 
-  private validateAmount(totalIncome: number): boolean {
-    const isValid = !isNaN(totalIncome);
+  private validateAmount(amount: number): boolean {
+    const isValid = !isNaN(amount) && Number.isFinite(amount);
 
     if (isValid) return true;
 

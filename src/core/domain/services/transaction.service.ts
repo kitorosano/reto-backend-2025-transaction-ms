@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionCurrency } from 'src/shared/dto/transaction.dto';
+import { TransactionCurrency } from '../../../shared/dto/transaction.dto';
 import { ErrorCodesKeys } from '../../../shared/errors/error-code-keys.enum';
 import { BadModelException } from '../../../shared/errors/exceptions/bad-model.exception';
 import { Transaction } from '../models/transaction.model';
@@ -20,6 +20,8 @@ export class TransactionService {
   private readonly MAX_CATEGORY_LENGTH = 20;
   private readonly DEFAULT_DESCRIPTION: string = '';
   private readonly MAX_DESCRIPTION_LENGTH = 50;
+  private readonly MIN_ABSOLUTE_AMOUNT = 0.01;
+  private readonly MAX_ABSOLUTE_AMOUNT = 1_000_000;
 
   constructor(private readonly uuidService: UuidService) {}
 
@@ -78,7 +80,11 @@ export class TransactionService {
   }
 
   private validateAmount(amount: number): boolean {
-    const isValid = !isNaN(amount);
+    const isValid =
+      !isNaN(amount) &&
+      Math.abs(amount) >= this.MIN_ABSOLUTE_AMOUNT &&
+      Math.abs(amount) <= this.MAX_ABSOLUTE_AMOUNT &&
+      Number.isFinite(amount);
 
     if (isValid) return true;
 
