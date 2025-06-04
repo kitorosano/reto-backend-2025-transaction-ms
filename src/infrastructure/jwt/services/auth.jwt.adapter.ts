@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthServicePort } from '../../../core/application/ports/outbounds/auth.service.port';
 
@@ -8,11 +9,17 @@ type DecodedToken = {
 };
 
 export class AuthJWTAdapter implements AuthServicePort {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    @Inject(JwtService)
+    private readonly jwtService: JwtService,
+  ) {}
 
   async verifyToken(token: string): Promise<DecodedToken> {
     const verifiedToken = await this.jwtService.verifyAsync(token);
-    console.log({ verifiedToken });
-    return verifiedToken as DecodedToken;
+    return {
+      userId: verifiedToken.sub,
+      email: verifiedToken.email,
+      name: verifiedToken.name,
+    } as DecodedToken;
   }
 }
